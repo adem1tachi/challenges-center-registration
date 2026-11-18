@@ -1,0 +1,347 @@
+export const translations = {
+  ar: {
+    // Brand & Navigation
+    brandName: 'مركز تشالنجز',
+    brandSubtitle: 'مؤسسة تعليمية وتدريبية خاصة',
+    eventTitle: 'صالون التشغيل',
+    eventSubtitle: 'شراكة تدريبية لبناء الكفاءات المستقبلية',
+    navHome: 'الرئيسية',
+    navCourses: 'الدورات والورشات',
+    navAdmin: 'لوحة الإدارة',
+    navRegistrations: 'إدارة التسجيلات',
+    navLogin: 'دخول الإدارة',
+    navLogout: 'تسجيل الخروج',
+    switchLanguage: 'English',
+
+    // Hero Section
+    heroBadge: 'مبادرة خاصة بمناسبة صالون التشغيل 2026',
+    heroTitle: 'طوّر مهاراتك وانطلق نحو مستقبلك المهني مع مركز تشالنجز',
+    heroSubtitle:
+      'ورشات تدريبية مكثفة ودورات احترافية حضورية وعبر الإنترنت، مصممة خصيصاً لتمكينك من دخول سوق العمل والارتقاء بمسارك المهني.',
+    heroPrimaryCta: 'استكشف الورشات المتاحة',
+    heroSecondaryCta: 'تواصل مع مركز تشالنجز',
+    heroStatsCourses: 'ورشات ودورات متخصصة',
+    heroStatsParticipants: 'مقاعد مخصصة لرواد الصالون',
+    heroStatsMentors: 'خبراء ومؤطرون معتمدون',
+
+    // Featured Section
+    featuredTitle: 'أبرز الورشات والدورات القادمة',
+    featuredSubtitle: 'اختر الورشة التي تناسب طموحاتك وبادر بحجز مقعدك قبل اكتمال العدد',
+    viewAllCourses: 'عرض جميع الدورات والورشات',
+
+    // About Section
+    aboutTitle: 'عن صالون التشغيل ومركز تشالنجز',
+    aboutParagraph1:
+      'يشكل صالون التشغيل محطة حيوية تلتقي فيها الطاقات الشابة مع كبرى المؤسسات وسوق العمل. وفي هذا السياق، يسهم مركز تشالنجز (Challenges Center) بصفته مؤسسة تدريبية رائدة في تقديم مسارات تأهيلية تواكب الاحتياجات الحقيقية للمؤسسات.',
+    aboutParagraph2:
+      'تم تصميم منصة التسجيل هذه لتسهيل الوصول المباشر إلى الورشات العملية والتطبيقية خلال فعاليات الصالون، وتستمر بعده كنظام دائم ومتكامل لنشر الدورات وتطوير المهارات.',
+    feature1Title: 'شهادات وتأهيل معتمد',
+    feature1Desc: 'برامج تدريبية تمنحك قيمة مضافة حقيقية في سيرتك الذاتية.',
+    feature2Title: 'تطبيق عملي 100%',
+    feature2Desc: 'ورشات تركز على المهارات المطلوبة في المقابلات والمشاريع الواقعية.',
+    feature3Title: 'مرافقة وتوجيه مهني',
+    feature3Desc: 'تواصل مباشر مع خبراء الموارد البشرية ومطوري البرمجيات والمصممين.',
+
+    // Courses Page
+    coursesPageTitle: 'الدورات والورشات المتاحة',
+    coursesPageSubtitle: 'تصفح كافة الورشات الحالية وسجل مجاناً أو بادر بحجز مقعدك',
+    filterAll: 'الكل',
+    filterInPerson: 'حضوري',
+    filterOnline: 'عبر الإنترنت',
+    searchPlaceholder: 'ابحث عن ورشة، مدرب، أو مهارة...',
+    noCoursesFound: 'لم يتم العثور على أي دورات مطابقة للبحث الحالي.',
+    seatsLeft: 'مقعد متبقي',
+    fullyBooked: 'اكتمل العدد',
+    seatsAvailable: 'مقاعد متاحة',
+    viewDetails: 'تفاصيل الورشة والتسجيل',
+    formatInPerson: 'حضوري في المركز',
+    formatOnline: 'عبر الإنترنت (جلسة تفاعلية)',
+
+    // Course Details
+    courseDetailsTitle: 'تفاصيل الدورة والتسجيل',
+    backToCourses: 'العودة لقائمة الدورات',
+    courseInfo: 'معلومات الورشة',
+    dateAndTime: 'التاريخ والتوقيت',
+    locationVenue: 'المكان / القاعة',
+    instructor: 'المؤطر / المدرب',
+    capacity: 'الطاقة الاستيعابية',
+    deliveryFormat: 'صيغة الحضور',
+    onlineLinkNotice: 'سيتم إرسال رابط القاعة الافتراضية الخاصة للمقبولين فقط عبر البريد الإلكتروني.',
+
+    // Registration Form
+    regFormTitle: 'استمارة التسجيل في الورشة',
+    regFormSubtitle: 'يرجى إدخال بياناتك بدقة لتأكيد تسجيلك واستلام تأكيد الحضور',
+    firstName: 'الاسم الأول',
+    lastName: 'اللقب (اسم العائلة)',
+    phone: 'رقم الهاتف (الجزائر)',
+    phonePlaceholder: '05xxxxxxxx / 06xxxxxxxx / 07xxxxxxxx',
+    email: 'البريد الإلكتروني',
+    emailPlaceholder: 'example@email.com',
+    submitRegistration: 'تأكيد التسجيل الآن',
+    submitting: 'جاري تسجيل بياناتك...',
+    regClosedAlert: 'التسجيل في هذه الدورة مغلق حالياً أو اكتملت المقاعد المتاحة.',
+
+    // Consent Checkboxes (Law 18-07)
+    consentTitle: 'الموافقات الإلزامية والامتثال القانوني:',
+    consentPrivacy: 'أوافق على سياسة الخصوصية الخاصة بالمنصة ومعالجة بياناتي.',
+    consentTerms: 'أوافق على الشروط والأحكام العامة للمشاركة والالتزام بالحضور.',
+    consentLaw1807:
+      'أصرح بموافقتي الصريحة على معالجة بياناتي الشخصية وفقاً لأحكام القانون الجزائري رقم 18-07 المتعلق بحماية الأشخاص الطبيعيين في مجال معالجة المعطيات ذات الطابع الشخصي.',
+    readPrivacy: 'قراءة سياسة الخصوصية',
+    readTerms: 'قراءة الشروط والأحكام',
+
+    // Registration Success & Errors
+    regSuccessTitle: 'تم تسجيلك بنجاح!',
+    regSuccessDesc:
+      'شكراً لاهتمامك بورشات مركز تشالنجز في صالون التشغيل. لقد تم استلام طلبك وهو قيد المراجعة الإدارية لتأكيد مقعدك.',
+    regSuccessNumber: 'رقم التسجيل المرجعي:',
+    regSuccessNote: 'سنقوم بالتواصل معك عبر الهاتف أو البريد الإلكتروني لتأكيد الحضور.',
+    registerAnother: 'تسجيل في دورة أخرى',
+    errDuplicate: 'لقد قمت بالتسجيل مسبقاً في هذه الورشة باستخدام هذا البريد الإلكتروني.',
+    errFull: 'عذراً، هذه الورشة مكتملة العدد حالياً.',
+    errConsent: 'يجب الموافقة على جميع بنود الخصوصية والشروط والقانون 18-07 للمتابعة.',
+    errGeneral: 'حدث خطأ أثناء معالجة الطلب، يرجى المحاولة مرة أخرى.',
+
+    // Admin Dashboard
+    adminDashboardTitle: 'لوحة التحكم وإدارة الورشات',
+    adminDashboardSubtitle: 'متابعة الدورات، المقاعد المتاحة، والتحكم في النشر',
+    totalCourses: 'إجمالي الورشات',
+    totalRegistrations: 'إجمالي التسجيلات',
+    acceptedParticipants: 'المشاركون المقبولون',
+    fillRate: 'نسبة الإشغال الإجمالية',
+    createNewCourse: 'إضافة ورشة جديدة',
+    editCourse: 'تعديل الورشة',
+    deleteCourse: 'حذف الورشة',
+    publishStatus: 'حالة النشر',
+    published: 'منشور للعامة',
+    draft: 'مسودة / غير منشور',
+    actions: 'إجراءات',
+    manageParticipants: 'إدارة المسجلين',
+    confirmDeleteCourse: 'هل أنت متأكد من حذف هذه الورشة؟ سيتم حذف جميع تسجيلاتها تلقائياً.',
+    cancel: 'إلغاء',
+    save: 'حفظ التغييرات',
+    create: 'إنشاء الورشة',
+
+    // Registration Management
+    regMgmtTitle: 'إدارة المسجلين والحضور',
+    regMgmtSubtitle: 'فرز طلبات التسجيل، تحديث الحالات، وتصدير قوائم الحضور',
+    filterByCourse: 'تصفية حسب الورشة:',
+    filterByStatus: 'تصفية حسب الحالة:',
+    searchParticipants: 'بحث بالاسم، البريد أو الهاتف...',
+    statusNew: 'جديد',
+    statusAccepted: 'مقبول',
+    statusRejected: 'مرفوض',
+    statusNoResponse: 'لا رد',
+    exportCsv: 'تصدير المقبولين (CSV)',
+    printAttendance: 'ورقة الحضور (PDF)',
+    participantDetails: 'تفاصيل المشارك',
+    registeredOn: 'تاريخ التسجيل',
+    consentTimestamp: 'تاريخ الموافقة القانونية',
+    notes: 'ملاحظات الإدارة',
+    saveNotes: 'حفظ الملاحظة',
+    emptyRegistrations: 'لا توجد تسجيلات مطابقة لمعايير البحث.',
+    statusUpdatedMsg: 'تم تحديث حالة المشارك بنجاح',
+
+    // Attendance Sheet Print
+    attendanceSheetTitle: 'ورقة توقيع الحضور الرسمي',
+    salonBranding: 'صالون التشغيل 2026 x مركز تشالنجز للتدريب والتكوين',
+    colNumber: '#',
+    colFullName: 'الاسم واللقب',
+    colPhone: 'رقم الهاتف',
+    colEmail: 'البريد الإلكتروني',
+    colSignature: 'توقيع الحضور',
+    docGeneratedOn: 'تاريخ إنشاء الوثيقة:',
+    page: 'صفحة',
+    of: 'من',
+    printBtn: 'طباعة الآن / حفظ كـ PDF',
+    closeBtn: 'إغلاق',
+
+    // Legal & Privacy Pages
+    privacyPageTitle: 'سياسة الخصوصية وحماية المعطيات الشخصية',
+    privacyLawHeading: 'الامتثال للقانون الجزائري رقم 18-07',
+    termsPageTitle: 'الشروط والأحكام العامة للمشاركة',
+
+    // Footer
+    footerAboutText:
+      'مركز تشالنجز (Challenges Center) - مؤسسة تعليمية خاصة رائدة، تهدف إلى إعداد الكفاءات وصقل المهارات لدخول سوق العمل والمنافسة بقوة.',
+    footerQuickLinks: 'روابط سريعة',
+    footerEventInfo: 'معلومات الحدث',
+    footerLegal: 'الشروط القانونية والخصوصية',
+    allRightsReserved: 'جميع الحقوق محفوظة © مركز تشالنجز',
+    developerCreditText: 'تطوير المهندس آدم طاشي',
+  },
+
+  en: {
+    // Brand & Navigation
+    brandName: 'Challenges Center',
+    brandSubtitle: 'Private Educational & Training Institution',
+    eventTitle: 'Salon de l’Emploi',
+    eventSubtitle: 'Strategic Training Partnership for Future Careers',
+    navHome: 'Home',
+    navCourses: 'Courses & Workshops',
+    navAdmin: 'Admin Dashboard',
+    navRegistrations: 'Registrations',
+    navLogin: 'Admin Login',
+    navLogout: 'Sign Out',
+    switchLanguage: 'العربية',
+
+    // Hero Section
+    heroBadge: 'Exclusive Initiative for Salon de l’Emploi 2026',
+    heroTitle: 'Accelerate Your Career with Challenges Center Masterclasses',
+    heroSubtitle:
+      'High-impact in-person and online workshops engineered to equip you with the exact competencies and confidence employers are seeking right now.',
+    heroPrimaryCta: 'Explore Available Courses',
+    heroSecondaryCta: 'Contact Challenges Center',
+    heroStatsCourses: 'Specialized Workshops',
+    heroStatsParticipants: 'Exclusive Seats',
+    heroStatsMentors: 'Certified Industry Mentors',
+
+    // Featured Section
+    featuredTitle: 'Featured & Upcoming Workshops',
+    featuredSubtitle: 'Choose the workshop tailored to your career ambitions and reserve your seat before capacity is reached',
+    viewAllCourses: 'View All Courses & Workshops',
+
+    // About Section
+    aboutTitle: 'About Salon de l’Emploi & Challenges Center',
+    aboutParagraph1:
+      'Salon de l’Emploi is the premier event connecting emerging talent with leading organizations and career opportunities. Challenges Center, as an elite private training institution, partners with the event to deliver real-world, high-caliber skill acquisition.',
+    aboutParagraph2:
+      'This registration platform enables seamless participant onboarding during the event and serves as Challenges Center’s permanent platform for publishing programs and managing enrollments.',
+    feature1Title: 'Certified Practical Competency',
+    feature1Desc: 'Structured training programs that deliver tangible value to your professional portfolio.',
+    feature2Title: '100% Real-World Focus',
+    feature2Desc: 'Hands-on practice oriented toward hiring criteria and project delivery.',
+    feature3Title: 'Direct Mentor Access',
+    feature3Desc: 'Direct interaction with senior HR directors, senior engineers, and industry leaders.',
+
+    // Courses Page
+    coursesPageTitle: 'Available Courses & Workshops',
+    coursesPageSubtitle: 'Explore all scheduled masterclasses and enroll today',
+    filterAll: 'All',
+    filterInPerson: 'In-person',
+    filterOnline: 'Online',
+    searchPlaceholder: 'Search by topic, instructor, or skill...',
+    noCoursesFound: 'No courses match your current search criteria.',
+    seatsLeft: 'seats left',
+    fullyBooked: 'Fully Booked',
+    seatsAvailable: 'Seats Available',
+    viewDetails: 'View Details & Register',
+    formatInPerson: 'In-person at Center',
+    formatOnline: 'Live Interactive Online',
+
+    // Course Details
+    courseDetailsTitle: 'Course Details & Registration',
+    backToCourses: 'Back to Courses',
+    courseInfo: 'Course Overview',
+    dateAndTime: 'Date & Time',
+    locationVenue: 'Location / Venue',
+    instructor: 'Instructor / Mentor',
+    capacity: 'Maximum Capacity',
+    deliveryFormat: 'Delivery Mode',
+    onlineLinkNotice: 'Private meeting room access link is securely distributed to accepted participants via email.',
+
+    // Registration Form
+    regFormTitle: 'Participant Registration Form',
+    regFormSubtitle: 'Please submit accurate information to guarantee your seat confirmation',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    phone: 'Phone Number (Algeria)',
+    phonePlaceholder: '05xxxxxxxx / 06xxxxxxxx / 07xxxxxxxx',
+    email: 'Email Address',
+    emailPlaceholder: 'example@email.com',
+    submitRegistration: 'Submit Registration Now',
+    submitting: 'Processing Registration...',
+    regClosedAlert: 'Registration for this course is currently closed or maximum capacity has been reached.',
+
+    // Consent Checkboxes (Law 18-07)
+    consentTitle: 'Mandatory Legal Consents & Compliance:',
+    consentPrivacy: 'I agree to the platform Privacy Policy and the processing of my information.',
+    consentTerms: 'I agree to the Terms and Conditions of Participation and commit to attending.',
+    consentLaw1807:
+      'I give my explicit and informed consent for my personal data to be processed in accordance with Algerian Law No. 18-07 on the protection of individuals with regard to the processing of personal data.',
+    readPrivacy: 'Read Privacy Policy',
+    readTerms: 'Read Terms of Participation',
+
+    // Registration Success & Errors
+    regSuccessTitle: 'Registration Submitted Successfully!',
+    regSuccessDesc:
+      'Thank you for registering with Challenges Center for Salon de l’Emploi. Your application is under review by our administration team.',
+    regSuccessNumber: 'Registration Reference:',
+    regSuccessNote: 'Our team will contact you via phone or email to confirm attendance.',
+    registerAnother: 'Register for Another Course',
+    errDuplicate: 'You are already registered for this course with this email address.',
+    errFull: 'Sorry, this course is fully booked.',
+    errConsent: 'You must check all mandatory legal consent boxes to complete registration.',
+    errGeneral: 'An error occurred while processing your registration. Please try again.',
+
+    // Admin Dashboard
+    adminDashboardTitle: 'Course & Workshop Management Dashboard',
+    adminDashboardSubtitle: 'Track workshop capacity, edit programs, and manage publication states',
+    totalCourses: 'Total Courses',
+    totalRegistrations: 'Total Registrations',
+    acceptedParticipants: 'Accepted Participants',
+    fillRate: 'Global Fill Rate',
+    createNewCourse: 'Create New Course',
+    editCourse: 'Edit Course',
+    deleteCourse: 'Delete Course',
+    publishStatus: 'Publication Status',
+    published: 'Published',
+    draft: 'Draft / Unpublished',
+    actions: 'Actions',
+    manageParticipants: 'Manage Participants',
+    confirmDeleteCourse: 'Are you sure you want to delete this course? All associated registrations will be removed.',
+    cancel: 'Cancel',
+    save: 'Save Changes',
+    create: 'Create Course',
+
+    // Registration Management
+    regMgmtTitle: 'Participant & Registration Management',
+    regMgmtSubtitle: 'Review incoming requests, manage admission statuses, and export attendance sheets',
+    filterByCourse: 'Filter by Course:',
+    filterByStatus: 'Filter by Status:',
+    searchParticipants: 'Search by name, email, or phone...',
+    statusNew: 'New',
+    statusAccepted: 'Accepted',
+    statusRejected: 'Rejected',
+    statusNoResponse: 'No Response',
+    exportCsv: 'Export Accepted (CSV)',
+    printAttendance: 'Attendance Sheet (PDF)',
+    participantDetails: 'Participant Details',
+    registeredOn: 'Registration Date',
+    consentTimestamp: 'Legal Consent Timestamp',
+    notes: 'Internal Staff Notes',
+    saveNotes: 'Save Notes',
+    emptyRegistrations: 'No registrations found matching the specified filters.',
+    statusUpdatedMsg: 'Participant status updated successfully',
+
+    // Attendance Sheet Print
+    attendanceSheetTitle: 'Official Attendance Verification Sheet',
+    salonBranding: 'Salon de l’Emploi 2026 x Challenges Center Educational Institution',
+    colNumber: '#',
+    colFullName: 'Full Name',
+    colPhone: 'Phone Number',
+    colEmail: 'Email Address',
+    colSignature: 'Participant Signature',
+    docGeneratedOn: 'Document Generated On:',
+    page: 'Page',
+    of: 'of',
+    printBtn: 'Print / Save as PDF',
+    closeBtn: 'Close',
+
+    // Legal & Privacy Pages
+    privacyPageTitle: 'Privacy Policy & Data Protection',
+    privacyLawHeading: 'Compliance with Algerian Law No. 18-07',
+    termsPageTitle: 'Terms and Conditions of Participation',
+
+    // Footer
+    footerAboutText:
+      'Challenges Center is an elite private educational institution committed to preparing high-caliber talent for modern professional markets.',
+    footerQuickLinks: 'Quick Links',
+    footerEventInfo: 'Event Information',
+    footerLegal: 'Legal & Compliance',
+    allRightsReserved: 'All rights reserved © Challenges Center',
+    developerCreditText: 'Developed by Adem Tachi',
+  },
+};
+
+export type TranslationKey = keyof typeof translations.en;
