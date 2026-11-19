@@ -33,15 +33,22 @@ export default function CourseDetailPage() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`/api/courses01?all=true`)
+    fetch(`/api/courses01?id=${id}`)
       .then(res => res.json())
       .then(data => {
-        if (data.success && data.courses) {
+        if (data.success && data.course) {
+          setCourse(data.course);
+        } else if (data.success && data.courses) {
           const found = (data.courses as Course[]).find(c => c.id === id);
           setCourse(found || null);
+        } else {
+          setCourse(null);
         }
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err);
+        setCourse(null);
+      })
       .finally(() => setLoading(false));
   }, [id]);
 

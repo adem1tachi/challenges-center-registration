@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   getCourses,
+  getCourseById,
   createCourse,
   updateCourse,
   deleteCourse,
@@ -28,6 +29,30 @@ function isValidHttpsUrl(url: string | undefined | null): boolean {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    // 1. Fetch single course by ID if requested
+    if (id) {
+      const course = await getCourseById(id);
+      if (!course) {
+        return NextResponse.json(
+          { success: false, error: 'Course not found' },
+          { status: 404 }
+        );
+      }
+      // If course is unpublished draft, check admin auth
+      if (!course.is_published) {
+        const isAuthed = await requireAdminAuth(request);
+        if (!isAuthed) {
+          return NextResponse.json(
+            { success: false, error: 'Course not found' },
+            { status: 404 }
+          );
+        }
+      }
+      return NextResponse.json({ success: true, course });
+    }
+
     const includeUnpublished = searchParams.get('all') === 'true';
 
     // If requesting unpublished drafts, require admin authentication
