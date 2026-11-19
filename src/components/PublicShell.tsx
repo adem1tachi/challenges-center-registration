@@ -23,7 +23,7 @@ export default function PublicShell({ children }: PublicShellProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-slate-50">
+    <div className="min-h-screen flex flex-col justify-between bg-beige-50">
       <Navbar />
       <main className="flex-1 flex flex-col w-full">{children}</main>
       <Footer />

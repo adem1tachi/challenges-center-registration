@@ -47,7 +47,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#182249', '#E6B441', '#8C1D24', '#22C55E'],
+        colors: ['#991B1B', '#B91C1C', '#D4A373', '#22C55E'],
       });
     } catch {
       // safe fallback
@@ -58,30 +58,11 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
     e.preventDefault();
     setErrorMsg(null);
 
-    // Validation
-    if (!firstName.trim() || !lastName.trim()) {
-      setErrorMsg(locale === 'ar' ? 'يرجى إدخال الاسم واللقب بشكل كامل.' : 'Please enter your full first and last name.');
+    if (isClosed) {
+      setErrorMsg(locale === 'ar' ? 'التسجيل مغلق في هذه الدورة' : 'Registration is currently closed for this workshop');
       return;
     }
 
-    const cleanPhone = phone.trim().replace(/\s+/g, '');
-    const algerianPhoneRegex = /^(0)(5|6|7)[0-9]{8}$/;
-    if (!algerianPhoneRegex.test(cleanPhone)) {
-      setErrorMsg(
-        locale === 'ar'
-          ? 'يرجى إدخال رقم هاتف جزائري صحيح (مثال: 0550123456 أو 0661234567 أو 0770123456).'
-          : 'Please enter a valid 10-digit Algerian phone number (e.g. 0550123456).'
-      );
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      setErrorMsg(locale === 'ar' ? 'يرجى إدخال بريد إلكتروني صحيح.' : 'Please enter a valid email address.');
-      return;
-    }
-
-    // Checkbox validation
     if (!consentPrivacy || !consentTerms || !consentDataLaw) {
       setErrorMsg(t('errConsent'));
       return;
@@ -97,7 +78,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
           course_id: course.id,
           first_name: firstName.trim(),
           last_name: lastName.trim(),
-          phone: cleanPhone,
+          phone: phone.trim(),
           email: email.trim().toLowerCase(),
           consent_privacy: consentPrivacy,
           consent_terms: consentTerms,
@@ -109,22 +90,23 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
 
       if (!res.ok || !data.success) {
         if (data.error === 'ALREADY_REGISTERED') {
-          setErrorMsg(t('errDuplicate'));
+          throw new Error(t('errDuplicate'));
         } else if (data.error === 'COURSE_FULL') {
-          setErrorMsg(t('errFull'));
+          throw new Error(t('errFull'));
+        } else if (data.details) {
+          const firstField = Object.keys(data.details)[0];
+          const msg = data.details[firstField]?.[0] || 'Validation error';
+          throw new Error(msg);
         } else {
-          setErrorMsg(t('errGeneral'));
+          throw new Error(data.error || 'Failed to submit registration');
         }
-        setLoading(false);
-        return;
       }
 
-      // Success!
-      setSuccessData(data.registration);
+      setSuccessData({ id: data.registration.id });
       triggerConfetti();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setErrorMsg(t('errGeneral'));
+      setErrorMsg(err.message || 'Error occurred');
     } finally {
       setLoading(false);
     }
@@ -132,22 +114,24 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
 
   if (isClosed) {
     return (
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 text-center text-amber-900">
-        <AlertCircle className="w-10 h-10 text-amber-600 mx-auto mb-3" />
-        <h3 className="text-lg font-bold mb-1">
-          {isFull ? t('fullyBooked') : t('regClosedAlert')}
-        </h3>
-        <p className="text-sm text-amber-700 max-w-md mx-auto">
-          {locale === 'ar'
-            ? 'نعتذر، لقد تم استيفاء المقاعد المتاحة لهذه الورشة أو تم إغلاق التسجيل من قبل الإدارة.'
-            : 'We apologize, the available seats for this workshop have reached capacity or registration is closed.'}
+      <div className="p-8 bg-beige-100 rounded-3xl border border-beige-300 text-center space-y-3">
+        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto text-rose-600 shadow-xs">
+          <AlertCircle className="w-6 h-6" />
+        </div>
+        <h4 className="text-lg font-bold text-beige-900">
+          {locale === 'ar' ? 'التسجيل في هذه الدورة غير متاح' : 'Registration Unavailable'}
+        </h4>
+        <p className="text-xs sm:text-sm text-beige-700 max-w-md mx-auto">
+          {isFull
+            ? (locale === 'ar' ? 'اكتملت المقاعد المخصصة لهذه الورشة التدريبية.' : 'This workshop has reached maximum capacity.')
+            : (locale === 'ar' ? 'هذه الورشة غير متاحة للتسجيل حالياً.' : 'This workshop is currently not open for new enrollments.')}
         </p>
-        <div className="mt-5">
+        <div className="pt-2">
           <Link
             href="/courses01"
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold text-brand-navy bg-white border border-amber-300 shadow-xs hover:bg-amber-100/50 transition-colors"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold bg-ruby-700 text-white hover:bg-ruby-800 transition-colors shadow-xs"
           >
-            {t('backToCourses')}
+            <span>{t('viewAllCourses')}</span>
           </Link>
         </div>
       </div>
@@ -156,39 +140,46 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
 
   if (successData) {
     return (
-      <div className="bg-white border-2 border-emerald-500/30 rounded-2xl p-6 sm:p-8 shadow-md text-center animate-in zoom-in-95 duration-300">
-        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600">
-          <CheckCircle2 className="w-10 h-10" />
+      <div className="p-8 sm:p-10 bg-white rounded-3xl border border-emerald-200 text-center space-y-6 shadow-sm animate-in fade-in zoom-in-95">
+        <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-200 shadow-xs">
+          <CheckCircle2 className="w-8 h-8" />
         </div>
 
-        <h3 className="text-2xl font-black text-slate-900 mb-2">
-          {t('regSuccessTitle')}
-        </h3>
-
-        <p className="text-sm text-slate-600 max-w-lg mx-auto mb-6 leading-relaxed">
-          {t('regSuccessDesc')}
-        </p>
-
-        {/* Ticket Reference Card */}
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-md mx-auto mb-6 text-start">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase text-brand-navy mb-2">
-            <Ticket className="w-4 h-4 text-brand-gold" />
-            <span>{t('regSuccessNumber')}</span>
-          </div>
-          <div className="font-mono text-base font-bold text-slate-900 bg-white p-2.5 rounded border border-slate-200 select-all">
-            {successData.id}
-          </div>
-          <div className="text-xs text-slate-500 mt-2">
-            {t('regSuccessNote')}
-          </div>
+        <div className="space-y-2">
+          <h3 className="text-xl sm:text-2xl font-black text-beige-900">
+            {t('regSuccessTitle')}
+          </h3>
+          <p className="text-xs sm:text-sm text-beige-700 max-w-lg mx-auto">
+            {t('regSuccessDesc')}
+          </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        {/* Ticket Badge */}
+        <div className="p-4 bg-beige-50 rounded-2xl border border-beige-300 max-w-sm mx-auto flex items-center justify-between gap-3 text-start">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-ruby-700 text-beige-50 flex items-center justify-center shrink-0">
+              <Ticket className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-[10px] uppercase font-bold text-beige-600 block">
+                {locale === 'ar' ? 'رقم طلب التسجيل' : 'Application Ref'}
+              </span>
+              <span className="font-mono font-bold text-xs sm:text-sm text-beige-900">
+                {successData.id.slice(0, 18)}...
+              </span>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shrink-0">
+            {locale === 'ar' ? 'قيد المراجعة' : 'Pending'}
+          </span>
+        </div>
+
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/courses01"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand-navy hover:bg-brand-navyLight shadow-xs transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-ruby-700 hover:bg-ruby-800 shadow-xs transition-colors"
           >
-            {t('registerAnother')}
+            <span>{t('backToCourses')}</span>
           </Link>
           <button
             onClick={() => {
@@ -202,7 +193,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               setConsentDataLaw(false);
             }}
             type="button"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-semibold text-beige-800 bg-beige-100 hover:bg-beige-200 transition-colors"
           >
             {locale === 'ar' ? 'تسجيل مشارك آخر في هذه الدورة' : 'Register another attendee'}
           </button>
@@ -214,13 +205,13 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs"
+      className="bg-white rounded-3xl border border-beige-300 p-6 sm:p-8 shadow-xs"
     >
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-slate-900 mb-1">
+        <h3 className="text-xl font-bold text-beige-900 mb-1">
           {t('regFormTitle')}
         </h3>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-beige-700">
           {t('regFormSubtitle')}
         </p>
       </div>
@@ -235,11 +226,11 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
       {/* Grid: First Name & Last Name */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
             {t('firstName')} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
               <User className="w-4 h-4" />
             </div>
             <input
@@ -248,17 +239,17 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               placeholder={locale === 'ar' ? 'محمد' : 'Mohammed'}
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
             {t('lastName')} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
               <User className="w-4 h-4" />
             </div>
             <input
@@ -267,7 +258,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               value={lastName}
               onChange={e => setLastName(e.target.value)}
               placeholder={locale === 'ar' ? 'بن علي' : 'Benali'}
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all"
             />
           </div>
         </div>
@@ -276,11 +267,11 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
       {/* Grid: Phone Number & Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
             {t('phone')} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
               <Phone className="w-4 h-4" />
             </div>
             <input
@@ -290,20 +281,20 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               onChange={e => setPhone(e.target.value)}
               placeholder={t('phonePlaceholder')}
               dir="ltr"
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy text-start"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 text-start transition-all"
             />
           </div>
-          <span className="text-[11px] text-slate-400 mt-1 block">
+          <span className="text-[11px] text-beige-600 mt-1 block">
             {locale === 'ar' ? 'مثال: 0550123456 أو 0661234567 أو 0770123456' : 'e.g., 0550123456 / 0661234567 / 0770123456'}
           </span>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
             {t('email')} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
               <Mail className="w-4 h-4" />
             </div>
             <input
@@ -313,37 +304,37 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               onChange={e => setEmail(e.target.value)}
               placeholder={t('emailPlaceholder')}
               dir="ltr"
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy text-start"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 text-start transition-all"
             />
           </div>
-          <span className="text-[11px] text-slate-400 mt-1 block">
+          <span className="text-[11px] text-beige-600 mt-1 block">
             {locale === 'ar' ? 'مطلوب لمنع التكرار واستلام تأكيد الحضور' : 'Used for unique enrollment and confirmation'}
           </span>
         </div>
       </div>
 
-      {/* Mandatory Consents (Section 7 Compliance) */}
-      <div className="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3.5 mb-6">
-        <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-          <ShieldCheck className="w-4 h-4 text-brand-gold" />
+      {/* Mandatory Consents (Law 18-07 Compliance) */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-beige-100/70 border border-beige-300/80 space-y-3.5 mb-6">
+        <div className="flex items-center gap-2 text-xs font-bold text-beige-900">
+          <ShieldCheck className="w-4 h-4 text-ruby-700" />
           <span>{t('consentTitle')}</span>
         </div>
 
         {/* Checkbox 1: Privacy Policy */}
-        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-slate-700 select-none">
+        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
           <input
             type="checkbox"
             required
             checked={consentPrivacy}
             onChange={e => setConsentPrivacy(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-gold"
+            className="mt-1 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
           />
           <span className="leading-relaxed">
             {t('consentPrivacy')}{' '}
             <Link
               href="/privacy01"
               target="_blank"
-              className="text-brand-navy hover:text-brand-gold font-semibold underline underline-offset-2 inline-flex items-center gap-0.5"
+              className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2 inline-flex items-center gap-0.5"
             >
               <span>{t('readPrivacy')}</span>
               <ExternalLink className="w-3 h-3" />
@@ -352,20 +343,20 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
         </label>
 
         {/* Checkbox 2: Terms of Participation */}
-        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-slate-700 select-none">
+        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
           <input
             type="checkbox"
             required
             checked={consentTerms}
             onChange={e => setConsentTerms(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-gold"
+            className="mt-1 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
           />
           <span className="leading-relaxed">
             {t('consentTerms')}{' '}
             <Link
               href="/terms01"
               target="_blank"
-              className="text-brand-navy hover:text-brand-gold font-semibold underline underline-offset-2 inline-flex items-center gap-0.5"
+              className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2 inline-flex items-center gap-0.5"
             >
               <span>{t('readTerms')}</span>
               <ExternalLink className="w-3 h-3" />
@@ -374,15 +365,15 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
         </label>
 
         {/* Checkbox 3: Algerian Law No. 18-07 */}
-        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-slate-700 select-none">
+        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
           <input
             type="checkbox"
             required
             checked={consentDataLaw}
             onChange={e => setConsentDataLaw(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-gold"
+            className="mt-1 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
           />
-          <span className="leading-relaxed text-slate-800 font-medium">
+          <span className="leading-relaxed text-beige-900 font-medium">
             {t('consentLaw1807')}
           </span>
         </label>
@@ -392,7 +383,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-bold text-white bg-brand-navy hover:bg-brand-navyLight focus:ring-4 focus:ring-brand-gold/30 shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-bold text-white bg-ruby-700 hover:bg-ruby-800 focus:ring-4 focus:ring-ruby-600/30 shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {loading ? (
           <>

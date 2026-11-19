@@ -14,30 +14,30 @@ export default function TermsPage() {
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-brand-navy mb-4 transition-colors"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-beige-700 hover:text-ruby-700 mb-4 transition-colors"
         >
           <ArrowIcon className="w-4 h-4" />
           <span>{locale === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}</span>
         </Link>
 
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 mb-3">
-          <BookOpen className="w-4 h-4 text-brand-gold" />
+          <BookOpen className="w-4 h-4 text-ruby-700" />
           <span>{locale === 'ar' ? 'ميثاق المشاركة والالتزام' : 'Participation Charter'}</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-beige-900 tracking-tight">
           {t('termsPageTitle')}
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-beige-600 mt-1">
           {locale === 'ar' ? 'ساري المفعول لصالون التشغيل ودورات مركز تشالنجز' : 'Valid for Salon de l’Emploi & Challenges Center Programs'}
         </p>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-xs space-y-6 text-sm text-slate-700 leading-relaxed">
+      <div className="bg-white/95 rounded-3xl border border-beige-300 p-6 sm:p-10 shadow-sm shadow-ruby-950/5 space-y-6 text-sm text-beige-800 leading-relaxed">
         {locale === 'ar' ? (
           <>
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                 <span>1. شروط الأهلية والتسجيل</span>
               </h2>
@@ -47,8 +47,8 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-ruby-700" />
                 <span>2. الالتزام بالحضور والمواعيد</span>
               </h2>
               <p>
@@ -57,8 +57,8 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Users className="w-5 h-5 text-brand-navy" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <Users className="w-5 h-5 text-ruby-700" />
                 <span>3. توقيع سجل الحضور الرسمي</span>
               </h2>
               <p>
@@ -67,7 +67,7 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900">4. تعديل أو تأجيل الورشات</h2>
+              <h2 className="text-lg font-bold text-beige-900">4. تعديل أو تأجيل الورشات</h2>
               <p>
                 يحتفظ مركز تشالنجز بالحق في تعديل توقيت الورشة أو نقلها في حالات الضرورة القاهرة، مع إخطار جميع المشاركين المقبولين بوقت كافٍ عبر رسائل نصية أو بريد إلكتروني.
               </p>
@@ -76,7 +76,7 @@ export default function TermsPage() {
         ) : (
           <>
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                 <span>1. Eligibility and Registration Validity</span>
               </h2>
@@ -86,8 +86,8 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-ruby-700" />
                 <span>2. Attendance Commitment & Punctuality</span>
               </h2>
               <p>
@@ -96,8 +96,8 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Users className="w-5 h-5 text-brand-navy" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <Users className="w-5 h-5 text-ruby-700" />
                 <span>3. Attendance Roster Signature</span>
               </h2>
               <p>

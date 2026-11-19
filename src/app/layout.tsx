@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" className={ibmPlexArabic.variable}>
-      <body className={`min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans antialiased selection:bg-brand-gold selection:text-brand-navy ${ibmPlexArabic.className}`}>
+      <body className={`min-h-screen bg-beige-50 text-beige-900 flex flex-col font-sans antialiased selection:bg-ruby-700 selection:text-beige-50 ${ibmPlexArabic.className}`}>
         <LanguageProvider>
           <PublicShell>{children}</PublicShell>
         </LanguageProvider>

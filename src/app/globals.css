@@ -6,6 +6,16 @@
   html {
     scroll-behavior: smooth;
   }
+
+  body {
+    background-color: #FAF6F0;
+    color: #1F1612;
+  }
+
+  ::selection {
+    background-color: #991B1B;
+    color: #FAF6F0;
+  }
 }
 
 /* Custom print media styles for Attendance Sheets */
@@ -18,7 +28,7 @@
   header,
   footer,
   nav,
-  .print\\:hidden {
+  .print\:hidden {
     display: none !important;
   }
 

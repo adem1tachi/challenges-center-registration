@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-brand-navy mb-4 transition-colors"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-beige-700 hover:text-ruby-700 mb-4 transition-colors"
         >
           <ArrowIcon className="w-4 h-4" />
           <span>{locale === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}</span>
@@ -25,20 +25,20 @@ export default function PrivacyPolicyPage() {
           <span>{t('privacyLawHeading')}</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-beige-900 tracking-tight">
           {t('privacyPageTitle')}
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-beige-600 mt-1">
           {locale === 'ar' ? 'آخر تحديث: نوفمبر 2026' : 'Last updated: November 2026'}
         </p>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-xs space-y-6 text-sm text-slate-700 leading-relaxed">
+      <div className="bg-white/95 rounded-3xl border border-beige-300 p-6 sm:p-10 shadow-sm shadow-ruby-950/5 space-y-6 text-sm text-beige-800 leading-relaxed">
         {locale === 'ar' ? (
           <>
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Scale className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <Scale className="w-5 h-5 text-ruby-700" />
                 <span>1. الإطار القانوني والامتثال لأحكام القانون رقم 18-07</span>
               </h2>
               <p>
@@ -47,14 +47,14 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-ruby-700" />
                 <span>2. المعطيات التي يتم جمعها والغرض من معالجتها</span>
               </h2>
               <p>
                 تقتصر المعطيات المجمعة من خلال استمارة التسجيل على البيانات الأساسية الضرورية لإدارة الورشات وتنظيم الحضور، وتشمل:
               </p>
-              <ul className="list-disc list-inside space-y-1 ps-2 text-slate-600">
+              <ul className="list-disc list-inside space-y-1 ps-2 text-beige-700">
                 <li>الاسم واللقب (للتعريف وإصدار قوائم الحضور وشهادات المشاركة).</li>
                 <li>رقم الهاتف والبريد الإلكتروني (للتواصل المباشر وتأكيد المقاعد وإرسال روابط الجلسات عن بعد).</li>
                 <li>تاريخ ووقت التسجيل والبصمة الزمنية للموافقة الصريحة.</li>
@@ -65,8 +65,8 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-ruby-700" />
                 <span>3. أمن البيانات وسريتها</span>
               </h2>
               <p>
@@ -75,18 +75,18 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900">4. حقوق المشارك (صاحب المعطيات)</h2>
+              <h2 className="text-lg font-bold text-beige-900">4. حقوق المشارك (صاحب المعطيات)</h2>
               <p>
                 وفقاً للمادتين 32 و 34 من القانون 18-07، يحق لكل مشارك مسجل:
               </p>
-              <ul className="list-disc list-inside space-y-1 ps-2 text-slate-600">
+              <ul className="list-disc list-inside space-y-1 ps-2 text-beige-700">
                 <li>حق الاطلاع على بياناته الشخصية المسجلة في النظام.</li>
                 <li>حق طلب تصحيح أي بيانات غير دقيقة أو تعديلها.</li>
                 <li>حق طلب حذف تسجيله وإلغاء مقعده في أي وقت عبر التواصل مع إدارة المركز.</li>
               </ul>
             </section>
 
-            <section className="space-y-2 pt-4 border-t border-slate-100 text-xs text-slate-500">
+            <section className="space-y-2 pt-4 border-t border-beige-200 text-xs text-beige-600">
               <p>
                 لأي استفسار بخصوص معالجة البيانات الشخصية أو ممارسة حقوقكم القانونية، يمكنكم التواصل مع مسؤول حماية البيانات عبر: <strong>privacy@challengescenter.dz</strong>
               </p>
@@ -95,8 +95,8 @@ export default function PrivacyPolicyPage() {
         ) : (
           <>
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Scale className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <Scale className="w-5 h-5 text-ruby-700" />
                 <span>1. Legal Framework & Algerian Law No. 18-07 Compliance</span>
               </h2>
               <p>
@@ -105,14 +105,14 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-ruby-700" />
                 <span>2. Data Collected & Processing Purpose</span>
               </h2>
               <p>
                 The data collected via our registration form is strictly limited to information necessary for workshop coordination, seat allocation, and attendance certification:
               </p>
-              <ul className="list-disc list-inside space-y-1 ps-2 text-slate-600">
+              <ul className="list-disc list-inside space-y-1 ps-2 text-beige-700">
                 <li>First Name and Last Name (for attendee identification and official attendance rosters).</li>
                 <li>Phone Number and Email Address (for confirmation calls, notifications, and private online meeting access).</li>
                 <li>Registration timestamps and explicit consent logs.</li>
@@ -123,8 +123,8 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-brand-gold" />
+              <h2 className="text-lg font-bold text-beige-900 flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-ruby-700" />
                 <span>3. Data Security & Row-Level Confidentiality</span>
               </h2>
               <p>
@@ -133,13 +133,13 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-slate-900">4. Participant Rights</h2>
+              <h2 className="text-lg font-bold text-beige-900">4. Participant Rights</h2>
               <p>
                 Pursuant to Articles 32 and 34 of Algerian Law No. 18-07, each registrant holds the right to access, rectify, or request deletion of their personal data by contacting Challenges Center administration.
               </p>
             </section>
 
-            <section className="space-y-2 pt-4 border-t border-slate-100 text-xs text-slate-500">
+            <section className="space-y-2 pt-4 border-t border-beige-200 text-xs text-beige-600">
               <p>
                 For any inquiries regarding data protection, please contact: <strong>privacy@challengescenter.dz</strong>
               </p>

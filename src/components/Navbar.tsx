@@ -20,12 +20,12 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 shadow-md">
+    <header className="sticky top-0 z-40 bg-ruby-950/95 backdrop-blur-md border-b border-ruby-900/50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Brand & Organizers Presentation */}
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3.5 group">
-            {/* Salon de l'Emploi Logo (Balanced size) */}
+            {/* Salon de l'Emploi Logo */}
             <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
               <Image
                 src="/images/salon-emploi-logo.png"
@@ -47,9 +47,9 @@ export default function Navbar() {
             </div>
 
             {/* Subtle Divider */}
-            <div className="h-6 w-px bg-slate-800" />
+            <div className="h-6 w-px bg-ruby-900/60" />
 
-            {/* Challenges Center Partner Logo (Balanced height matching Salon logo) */}
+            {/* Challenges Center Partner Logo */}
             <div className="relative h-8 sm:h-9 w-24 sm:w-28 flex items-center justify-center shrink-0">
               <Image
                 src="/images/challenges-center-logo-white.png"
@@ -73,11 +73,11 @@ export default function Navbar() {
                   href={link.href}
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     isActive
-                      ? 'bg-white/10 text-brand-gold border border-brand-gold/30 shadow-xs'
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      ? 'bg-ruby-700 text-beige-50 shadow-sm border border-ruby-600/40'
+                      : 'text-beige-200 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  {Icon && <Icon className="w-4 h-4 opacity-80" />}
+                  {Icon && <Icon className="w-4 h-4 opacity-85" />}
                   <span>{link.label}</span>
                 </Link>
               );
@@ -95,7 +95,7 @@ export default function Navbar() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               type="button"
-              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 focus:outline-none"
+              className="p-2 rounded-xl text-beige-200 hover:text-white hover:bg-white/10 focus:outline-none"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -106,7 +106,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-900 px-4 pt-3 pb-6 space-y-2 shadow-xl animate-in slide-in-from-top-2">
+        <div className="md:hidden border-t border-ruby-900/50 bg-ruby-950 px-4 pt-3 pb-6 space-y-2 shadow-xl animate-in slide-in-from-top-2">
           {navLinks.map(link => {
             const isActive = pathname === link.href;
             const Icon = link.icon;
@@ -117,11 +117,11 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
                   isActive
-                    ? 'bg-brand-gold text-brand-navy'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    ? 'bg-ruby-700 text-beige-50 font-bold'
+                    : 'text-beige-200 hover:text-white hover:bg-white/10'
                 }`}
               >
-                {Icon && <Icon className="w-4 h-4 opacity-80" />}
+                {Icon && <Icon className="w-4 h-4 opacity-85" />}
                 <span>{link.label}</span>
               </Link>
             );

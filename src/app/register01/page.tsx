@@ -223,7 +223,7 @@ function RegistrationManagementContent() {
       <button
         onClick={fetchData}
         type="button"
-        className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-brand-navy shadow-xs transition-colors"
+        className="p-2.5 bg-white border border-beige-300 rounded-xl text-beige-700 hover:text-ruby-700 hover:border-ruby-600/50 shadow-xs transition-colors"
         title={locale === 'ar' ? 'تحديث البيانات' : 'Refresh'}
       >
         <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -251,9 +251,9 @@ function RegistrationManagementContent() {
         }}
         type="button"
         disabled={courses.length === 0}
-        className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-navy hover:bg-brand-navyLight text-white shadow-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-ruby-700 hover:bg-ruby-800 text-beige-50 shadow-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <Printer className="w-4 h-4 text-brand-gold" />
+        <Printer className="w-4 h-4 text-beige-200" />
         <span>{t('printAttendance')}</span>
       </button>
     </>
@@ -268,34 +268,34 @@ function RegistrationManagementContent() {
       <div className="space-y-6">
         {/* Course Specific Stats Banner (if a course is selected) */}
         {activeCourse && (
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="bg-white rounded-2xl border border-beige-300 p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-gold block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ruby-700 block">
                 {locale === 'ar' ? 'الورشة المحددة حالياً' : 'Active Course Filter'}
               </span>
-              <h3 className="text-lg font-bold text-slate-900 mt-0.5">
+              <h3 className="text-lg font-bold text-beige-900 mt-0.5">
                 {activeCourse.title}
               </h3>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-beige-600 mt-1">
                 {formatDate(activeCourse.date, locale)} • {activeCourse.time} •{' '}
                 {activeCourse.location}
               </p>
             </div>
 
-            <div className="flex items-center gap-6 shrink-0 bg-slate-50 px-5 py-3 rounded-xl border border-slate-200/80">
+            <div className="flex items-center gap-6 shrink-0 bg-beige-100/60 px-5 py-3 rounded-xl border border-beige-200">
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                <span className="text-[10px] uppercase font-bold text-beige-500 block">
                   {t('capacity')}
                 </span>
-                <span className="text-base font-black text-slate-900">
+                <span className="text-base font-black text-beige-900">
                   {activeCourse.max_seats}
                 </span>
               </div>
 
-              <div className="h-7 w-px bg-slate-200" />
+              <div className="h-7 w-px bg-beige-300" />
 
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                <span className="text-[10px] uppercase font-bold text-beige-500 block">
                   {t('statusAccepted')}
                 </span>
                 <span className="text-base font-black text-emerald-700">
@@ -303,13 +303,13 @@ function RegistrationManagementContent() {
                 </span>
               </div>
 
-              <div className="h-7 w-px bg-slate-200" />
+              <div className="h-7 w-px bg-beige-300" />
 
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                <span className="text-[10px] uppercase font-bold text-beige-500 block">
                   {t('seatsAvailable')}
                 </span>
-                <span className="text-base font-black text-brand-navy">
+                <span className="text-base font-black text-ruby-700">
                   {Math.max(0, activeCourse.max_seats - acceptedForActiveCourse.length)}
                 </span>
               </div>
@@ -318,11 +318,11 @@ function RegistrationManagementContent() {
         )}
 
         {/* Filters and Search Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-beige-300 shadow-xs space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Search Input */}
             <div className="relative">
-              <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
+              <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
                 <Search className="w-4 h-4" />
               </div>
               <input
@@ -330,7 +330,7 @@ function RegistrationManagementContent() {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder={t('searchParticipants')}
-                className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+                className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-xs sm:text-sm placeholder:text-beige-400 focus:outline-none focus:ring-2 focus:ring-ruby-700/20 focus:border-ruby-700"
               />
             </div>
 
@@ -339,7 +339,7 @@ function RegistrationManagementContent() {
               <select
                 value={selectedCourseId}
                 onChange={e => setSelectedCourseId(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+                className="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-ruby-700/20 focus:border-ruby-700"
               >
                 <option value="all">
                   {locale === 'ar' ? 'جميع الورشات والدورات' : 'All Courses & Workshops'}
@@ -357,7 +357,7 @@ function RegistrationManagementContent() {
               <select
                 value={selectedStatus}
                 onChange={e => setSelectedStatus(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+                className="w-full px-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-ruby-700/20 focus:border-ruby-700"
               >
                 <option value="all">{locale === 'ar' ? 'جميع الحالات' : 'All Statuses'}</option>
                 <option value="new">{t('statusNew')}</option>
@@ -368,7 +368,7 @@ function RegistrationManagementContent() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-500 pt-1 border-t border-slate-100">
+          <div className="flex items-center justify-between text-xs text-beige-600 pt-1 border-t border-beige-200">
             <span>
               {locale === 'ar'
                 ? `عرض ${filteredRegistrations.length} من إجمالي ${registrations.length} تسجيل`
@@ -383,7 +383,7 @@ function RegistrationManagementContent() {
                   setSearchQuery('');
                 }}
                 type="button"
-                className="text-brand-navy hover:underline font-semibold"
+                className="text-ruby-700 hover:text-ruby-800 hover:underline font-semibold"
               >
                 {locale === 'ar' ? 'إعادة ضبط التصفية' : 'Reset filters'}
               </button>
@@ -392,12 +392,12 @@ function RegistrationManagementContent() {
         </div>
 
         {/* Registrations View Container */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="bg-white rounded-2xl border border-beige-300 shadow-xs overflow-hidden">
           {/* DESKTOP TABLE */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-start border-collapse text-xs sm:text-sm">
               <thead>
-                <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+                <tr className="bg-beige-100/70 border-b border-beige-300 text-beige-800 font-bold uppercase tracking-wider text-[11px]">
                   <th className="py-3.5 px-4 text-start">{locale === 'ar' ? 'المشارك' : 'Participant'}</th>
                   <th className="py-3.5 px-4 text-start">{locale === 'ar' ? 'الورشة التدريبية' : 'Course'}</th>
                   <th className="py-3.5 px-4 text-start">{locale === 'ar' ? 'رقم الهاتف' : 'Phone'}</th>
@@ -406,24 +406,24 @@ function RegistrationManagementContent() {
                   <th className="py-3.5 px-4 text-end">{locale === 'ar' ? 'الإجراءات' : 'Actions'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-beige-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="py-12 text-center text-slate-400">
-                      <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-slate-400" />
+                    <td colSpan={6} className="py-12 text-center text-beige-500">
+                      <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-ruby-700" />
                       <span>{locale === 'ar' ? 'جاري تحميل الطلبات...' : 'Loading registrations...'}</span>
                     </td>
                   </tr>
                 ) : filteredRegistrations.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-16 text-center text-slate-400">
-                      <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+                    <td colSpan={6} className="py-16 text-center text-beige-600">
+                      <div className="w-12 h-12 bg-beige-100 rounded-full flex items-center justify-center mx-auto mb-3 text-beige-600">
                         <UserX className="w-6 h-6" />
                       </div>
-                      <p className="text-sm font-semibold text-slate-700 mb-1">
+                      <p className="text-sm font-semibold text-beige-900 mb-1">
                         {locale === 'ar' ? 'لا توجد طلبات تسجيل حالياً' : 'No registrations yet'}
                       </p>
-                      <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                      <p className="text-xs text-beige-600 max-w-sm mx-auto">
                         {locale === 'ar'
                           ? 'ستظهر هنا كافة طلبات المشاركين فور تسجيلهم في الورشات التدريبية.'
                           : 'Participant applications will appear here as soon as they register.'}
@@ -439,33 +439,33 @@ function RegistrationManagementContent() {
                     return (
                       <tr
                         key={reg.id}
-                        className="hover:bg-slate-50/70 transition-colors group cursor-pointer"
+                        className="hover:bg-beige-100/40 transition-colors group cursor-pointer"
                         onClick={() => setSelectedParticipant(reg)}
                       >
                         {/* Name */}
                         <td className="py-3.5 px-4">
-                          <div className="font-bold text-slate-900">
+                          <div className="font-bold text-beige-900">
                             {reg.first_name} {reg.last_name}
                           </div>
-                          <div className="text-[10px] text-slate-400 font-mono">
+                          <div className="text-[10px] text-beige-500 font-mono">
                             {formatDate(reg.created_at, locale)}
                           </div>
                         </td>
 
                         {/* Course */}
                         <td className="py-3.5 px-4 max-w-xs">
-                          <div className="text-xs font-medium text-slate-800 line-clamp-1">
+                          <div className="text-xs font-medium text-beige-800 line-clamp-1">
                             {courseTitle}
                           </div>
                         </td>
 
                         {/* Phone */}
-                        <td className="py-3.5 px-4 text-slate-700 font-mono text-xs whitespace-nowrap" dir="ltr">
+                        <td className="py-3.5 px-4 text-beige-700 font-mono text-xs whitespace-nowrap" dir="ltr">
                           {reg.phone}
                         </td>
 
                         {/* Email */}
-                        <td className="py-3.5 px-4 text-slate-600 font-mono text-xs max-w-[180px] truncate" dir="ltr">
+                        <td className="py-3.5 px-4 text-beige-600 font-mono text-xs max-w-[180px] truncate" dir="ltr">
                           {reg.email}
                         </td>
 
@@ -479,7 +479,7 @@ function RegistrationManagementContent() {
                             onChange={e =>
                               handleUpdateStatus(reg.id, e.target.value as RegistrationStatus)
                             }
-                            className="px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/30 cursor-pointer"
+                            className="px-2.5 py-1 text-xs font-bold rounded-lg border border-beige-300 bg-white text-beige-900 focus:outline-none focus:ring-2 focus:ring-ruby-700/20 focus:border-ruby-700 cursor-pointer"
                           >
                             <option value="new">{t('statusNew')}</option>
                             <option value="accepted">{t('statusAccepted')}</option>
@@ -496,7 +496,7 @@ function RegistrationManagementContent() {
                           <button
                             onClick={() => setSelectedParticipant(reg)}
                             type="button"
-                            className="p-1.5 text-slate-500 hover:text-brand-navy hover:bg-slate-100 rounded-lg transition-colors"
+                            className="p-1.5 text-beige-600 hover:text-ruby-700 hover:bg-beige-100 rounded-lg transition-colors"
                             title={t('participantDetails')}
                           >
                             <Eye className="w-4 h-4" />
@@ -511,11 +511,11 @@ function RegistrationManagementContent() {
           </div>
 
           {/* MOBILE VIEW: Cards */}
-          <div className="block md:hidden divide-y divide-slate-100">
+          <div className="block md:hidden divide-y divide-beige-200">
             {loading ? (
-              <div className="p-6 text-center text-slate-400 text-xs">Loading...</div>
+              <div className="p-6 text-center text-beige-500 text-xs">Loading...</div>
             ) : filteredRegistrations.length === 0 ? (
-              <div className="p-8 text-center text-slate-400 text-xs">
+              <div className="p-8 text-center text-beige-600 text-xs">
                 {locale === 'ar' ? 'لا توجد طلبات تسجيل حالياً.' : 'No registrations yet.'}
               </div>
             ) : (
@@ -528,14 +528,14 @@ function RegistrationManagementContent() {
                   <div
                     key={reg.id}
                     onClick={() => setSelectedParticipant(reg)}
-                    className="p-4 space-y-2.5 cursor-pointer active:bg-slate-50 transition-colors"
+                    className="p-4 space-y-2.5 cursor-pointer active:bg-beige-100/50 transition-colors"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h4 className="font-bold text-sm text-slate-900">
+                        <h4 className="font-bold text-sm text-beige-900">
                           {reg.first_name} {reg.last_name}
                         </h4>
-                        <p className="text-xs text-brand-navy font-medium line-clamp-1 mt-0.5">
+                        <p className="text-xs text-ruby-700 font-semibold line-clamp-1 mt-0.5">
                           {courseTitle}
                         </p>
                       </div>
@@ -545,17 +545,17 @@ function RegistrationManagementContent() {
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 font-mono" dir="ltr">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-beige-600 font-mono" dir="ltr">
                       <span>{reg.phone}</span>
                       <span>•</span>
                       <span className="truncate max-w-[200px]">{reg.email}</span>
                     </div>
 
                     <div
-                      className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2"
+                      className="pt-2 border-t border-beige-200 flex items-center justify-between gap-2"
                       onClick={e => e.stopPropagation()}
                     >
-                      <span className="text-[11px] text-slate-400">
+                      <span className="text-[11px] text-beige-500">
                         {formatDate(reg.created_at, locale)}
                       </span>
 
@@ -564,7 +564,7 @@ function RegistrationManagementContent() {
                         onChange={e =>
                           handleUpdateStatus(reg.id, e.target.value as RegistrationStatus)
                         }
-                        className="px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 bg-white"
+                        className="px-2.5 py-1 text-xs font-bold rounded-lg border border-beige-300 bg-white text-beige-900 focus:outline-none focus:ring-2 focus:ring-ruby-700/20 focus:border-ruby-700"
                       >
                         <option value="new">{t('statusNew')}</option>
                         <option value="accepted">{t('statusAccepted')}</option>
@@ -608,8 +608,8 @@ export default function RegistrationManagementPage() {
     <Suspense
       fallback={
         <div className="max-w-7xl mx-auto px-4 py-16 space-y-6">
-          <div className="h-8 w-64 bg-slate-200 rounded animate-pulse" />
-          <div className="h-64 bg-slate-100 rounded-2xl animate-pulse" />
+          <div className="h-8 w-64 bg-beige-200 rounded animate-pulse" />
+          <div className="h-64 bg-beige-100 rounded-2xl border border-beige-200 animate-pulse" />
         </div>
       }
     >

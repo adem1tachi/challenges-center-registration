@@ -14,71 +14,63 @@ import {
   Video,
   Users,
   User,
-  ArrowLeft,
   ArrowRight,
-  ShieldCheck,
+  ArrowLeft,
   Sparkles,
-  Info,
+  BookOpen,
 } from 'lucide-react';
 
-export default function CourseDetailsPage() {
-  const { id } = useParams() as { id: string };
+export default function CourseDetailPage() {
+  const params = useParams();
+  const id = params?.id as string;
   const { t, locale, isRtl } = useLanguage();
 
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
   useEffect(() => {
     if (!id) return;
+
     fetch(`/api/courses01?all=true`)
       .then(res => res.json())
       .then(data => {
-        if (data.success) {
+        if (data.success && data.courses) {
           const found = (data.courses as Course[]).find(c => c.id === id);
-          if (found) {
-            setCourse(found);
-          } else {
-            setError('COURSE_NOT_FOUND');
-          }
+          setCourse(found || null);
         }
       })
-      .catch(err => {
-        console.error(err);
-        setError('FETCH_ERROR');
-      })
+      .catch(err => console.error(err))
       .finally(() => setLoading(false));
   }, [id]);
 
-  const ArrowIcon = isRtl ? ArrowRight : ArrowLeft;
-
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-16 space-y-6">
-        <div className="h-8 w-48 bg-slate-200 rounded animate-pulse" />
-        <div className="h-64 bg-slate-100 rounded-2xl animate-pulse" />
-        <div className="h-80 bg-slate-100 rounded-2xl animate-pulse" />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-6">
+        <div className="h-8 w-48 bg-beige-200/60 rounded-xl animate-pulse" />
+        <div className="h-96 bg-white rounded-3xl border border-beige-300 animate-pulse" />
       </div>
     );
   }
 
-  if (error || !course) {
+  if (!course) {
     return (
-      <div className="max-w-md mx-auto px-4 py-20 text-center">
-        <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Info className="w-8 h-8" />
+      <div className="max-w-md mx-auto px-4 py-20 text-center space-y-4">
+        <div className="w-16 h-16 bg-beige-100 rounded-full flex items-center justify-center mx-auto text-beige-500">
+          <BookOpen className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900 mb-2">
+        <h2 className="text-xl font-bold text-beige-900">
           {locale === 'ar' ? 'الورشة غير متوفرة' : 'Course Not Found'}
         </h2>
-        <p className="text-sm text-slate-500 mb-6">
+        <p className="text-sm text-beige-700">
           {locale === 'ar'
-            ? 'لم يتم العثور على الورشة المطلوبة، ربما تم تغيير معرف الرابط أو حذفها.'
-            : 'The requested course could not be found or has been unpublished.'}
+            ? 'الورشة التي تبحث عنها غير موجودة أو تم إلغاؤها.'
+            : 'The workshop you are looking for does not exist or has been removed.'}
         </p>
         <Link
           href="/courses01"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-navy text-white rounded-xl text-sm font-semibold hover:bg-brand-navyLight"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-ruby-700 text-white rounded-xl text-sm font-semibold hover:bg-ruby-800 transition-colors"
         >
           <ArrowIcon className="w-4 h-4" />
           <span>{t('backToCourses')}</span>
@@ -96,12 +88,12 @@ export default function CourseDetailsPage() {
   const isOnline = course.delivery_mode === 'online';
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-10 bg-beige-50">
       {/* Back Button */}
       <div>
         <Link
           href="/courses01"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-brand-navy transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-beige-700 hover:text-ruby-700 transition-colors"
         >
           <ArrowIcon className="w-4 h-4" />
           <span>{t('backToCourses')}</span>
@@ -109,11 +101,11 @@ export default function CourseDetailsPage() {
       </div>
 
       {/* Course Overview Card */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-10 space-y-8">
+      <div className="bg-white rounded-3xl border border-beige-300 shadow-sm p-6 sm:p-10 space-y-8">
         <div>
           {/* Header Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-800">
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-ruby-50 text-ruby-700 border border-ruby-100">
               {course.category}
             </span>
 
@@ -156,30 +148,30 @@ export default function CourseDetailsPage() {
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-4">
+          <h1 className="text-2xl sm:text-4xl font-black text-beige-900 tracking-tight leading-tight mb-4">
             {title}
           </h1>
 
           {/* Description */}
-          <p className="text-base sm:text-lg text-slate-700 leading-relaxed whitespace-pre-line">
+          <p className="text-base sm:text-lg text-beige-800 leading-relaxed whitespace-pre-line">
             {description}
           </p>
         </div>
 
         {/* Key Information Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 sm:p-6 bg-slate-50 rounded-2xl border border-slate-200/80">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 sm:p-6 bg-beige-100/70 rounded-2xl border border-beige-300/80">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-xs">
-              <Calendar className="w-5 h-5 text-brand-gold" />
+            <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
+              <Calendar className="w-5 h-5 text-ruby-600" />
             </div>
             <div>
-              <span className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+              <span className="block text-xs font-bold uppercase tracking-wider text-beige-700">
                 {t('dateAndTime')}
               </span>
-              <span className="font-bold text-sm text-slate-900 block mt-0.5">
+              <span className="font-bold text-sm text-beige-900 block mt-0.5">
                 {formatDate(course.date, locale)}
               </span>
-              <span className="text-xs text-slate-600 flex items-center gap-1 mt-0.5">
+              <span className="text-xs text-beige-700 flex items-center gap-1 mt-0.5">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{course.time}</span>
               </span>
@@ -187,7 +179,7 @@ export default function CourseDetailsPage() {
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
               {isOnline ? (
                 <Video className="w-5 h-5 text-blue-600" />
               ) : (
@@ -195,10 +187,10 @@ export default function CourseDetailsPage() {
               )}
             </div>
             <div>
-              <span className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+              <span className="block text-xs font-bold uppercase tracking-wider text-beige-700">
                 {t('locationVenue')}
               </span>
-              <span className="font-bold text-sm text-slate-900 block mt-0.5">
+              <span className="font-bold text-sm text-beige-900 block mt-0.5">
                 {location}
               </span>
               {isOnline && (
@@ -211,19 +203,19 @@ export default function CourseDetailsPage() {
 
           {/* Instructor Information */}
           {course.instructor_name && (
-            <div className="flex items-start gap-3 sm:col-span-2 pt-3 border-t border-slate-200/60">
-              <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-xs">
-                <User className="w-5 h-5 text-brand-navy" />
+            <div className="flex items-start gap-3 sm:col-span-2 pt-3 border-t border-beige-300/60">
+              <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
+                <User className="w-5 h-5 text-ruby-700" />
               </div>
               <div>
-                <span className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+                <span className="block text-xs font-bold uppercase tracking-wider text-beige-700">
                   {t('instructor')}
                 </span>
-                <span className="font-bold text-sm text-slate-900 block mt-0.5">
+                <span className="font-bold text-sm text-beige-900 block mt-0.5">
                   {course.instructor_name}
                 </span>
                 {course.instructor_title && (
-                  <span className="text-xs text-slate-600 block mt-0.5">
+                  <span className="text-xs text-beige-700 block mt-0.5">
                     {course.instructor_title}
                   </span>
                 )}
@@ -234,24 +226,24 @@ export default function CourseDetailsPage() {
 
         {/* Capacity Bar */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+          <div className="flex items-center justify-between text-xs font-semibold text-beige-700">
             <span className="flex items-center gap-1.5">
-              <Users className="w-4 h-4 text-brand-gold" />
+              <Users className="w-4 h-4 text-ruby-700" />
               <span>{locale === 'ar' ? 'المقاعد المحجوزة حالياً:' : 'Confirmed Seat Allocations:'}</span>
             </span>
-            <span className="font-bold text-slate-900">
+            <span className="font-bold text-beige-900">
               {accepted} / {course.max_seats} ({locale === 'ar' ? `${seatsLeft} مقعد متاح` : `${seatsLeft} available`})
             </span>
           </div>
 
-          <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+          <div className="w-full h-3 bg-beige-200 rounded-full overflow-hidden border border-beige-300">
             <div
               className={`h-full transition-all duration-500 rounded-full ${
                 isFull
                   ? 'bg-rose-500'
                   : accepted / course.max_seats > 0.75
                   ? 'bg-amber-500'
-                  : 'bg-emerald-500'
+                  : 'bg-ruby-600'
               }`}
               style={{
                 width: `${Math.min(100, Math.round((accepted / course.max_seats) * 100))}%`,
