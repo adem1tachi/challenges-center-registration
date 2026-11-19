@@ -4,7 +4,32 @@
 -- File: supabase/insert_enssea_courses_en.sql
 -- ==============================================================================
 
--- Safe insertion: inserts courses only if they do not already exist by title
+-- 1. Ensure table and extensions exist
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS courses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    category TEXT NOT NULL DEFAULT 'Workshop',
+    date DATE NOT NULL,
+    time TEXT NOT NULL,
+    delivery_mode TEXT NOT NULL CHECK (delivery_mode IN ('in_person', 'online')),
+    location TEXT NOT NULL DEFAULT '',
+    meeting_url TEXT,
+    max_seats INTEGER NOT NULL CHECK (max_seats > 0),
+    is_published BOOLEAN NOT NULL DEFAULT true,
+    is_featured BOOLEAN NOT NULL DEFAULT false,
+    instructor_name TEXT,
+    instructor_title TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+-- Ensure unique constraint on title so the script can be re-run safely without duplicates
+CREATE UNIQUE INDEX IF NOT EXISTS idx_courses_title_unique ON courses(title);
+
+-- 2. Insert all 30 courses cleanly
 INSERT INTO courses (
     title,
     description,
@@ -18,8 +43,7 @@ INSERT INTO courses (
     is_featured,
     instructor_name,
     instructor_title
-)
-SELECT * FROM (VALUES
+) VALUES
     -- ==========================================================================
     -- Tuesday, 24 November 2026 - Online Masterclasses
     -- ==========================================================================
@@ -459,7 +483,4 @@ SELECT * FROM (VALUES
         'Fella MALEK',
         'HSE Consultant & Corporate Trainer'
     )
-) AS v(title, description, category, date, time, delivery_mode, location, max_seats, is_published, is_featured, instructor_name, instructor_title)
-WHERE NOT EXISTS (
-    SELECT 1 FROM courses WHERE courses.title = v.title
-);
+ON CONFLICT (title) DO NOTHING;
