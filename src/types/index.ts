@@ -4,16 +4,13 @@ export type RegistrationStatus = 'new' | 'accepted' | 'rejected' | 'no_response'
 
 export interface Course {
   id: string;
-  title_en: string;
-  title_ar: string;
-  description_en: string;
-  description_ar: string;
+  title: string;
+  description: string;
   category: string;
   date: string; // YYYY-MM-DD
   time: string; // e.g., "09:30 - 12:30"
   delivery_mode: DeliveryMode;
-  location_en: string;
-  location_ar: string;
+  location: string;
   meeting_url?: string | null;
   max_seats: number;
   is_published: boolean;
@@ -47,16 +44,13 @@ export interface Registration {
 export type Locale = 'ar' | 'en';
 
 export interface CourseInput {
-  title_en: string;
-  title_ar: string;
-  description_en: string;
-  description_ar: string;
+  title: string;
+  description: string;
   category: string;
   date: string;
   time: string;
   delivery_mode: DeliveryMode;
-  location_en: string;
-  location_ar: string;
+  location?: string;
   meeting_url?: string;
   max_seats: number;
   is_published?: boolean;

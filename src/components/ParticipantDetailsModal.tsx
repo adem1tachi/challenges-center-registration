@@ -25,9 +25,7 @@ export default function ParticipantDetailsModal({
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const courseTitle = registration.course
-    ? locale === 'ar'
-      ? registration.course.title_ar
-      : registration.course.title_en
+    ? registration.course.title
     : 'Unknown Course';
 
   const handleSave = async () => {

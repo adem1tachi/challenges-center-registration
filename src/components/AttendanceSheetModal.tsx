@@ -20,8 +20,8 @@ export default function AttendanceSheetModal({
 }: AttendanceSheetModalProps) {
   const { t, locale, isRtl } = useLanguage();
 
-  const courseTitle = locale === 'ar' ? course.title_ar : course.title_en;
-  const courseLocation = locale === 'ar' ? course.location_ar : course.location_en;
+  const courseTitle = course.title;
+  const courseLocation = course.location;
   const generationDate = new Date().toLocaleString(locale === 'ar' ? 'ar-DZ' : 'en-US', {
     dateStyle: 'medium',
     timeStyle: 'short',

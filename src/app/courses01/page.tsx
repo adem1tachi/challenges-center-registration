@@ -51,8 +51,8 @@ export default function CoursesPage() {
       // Search query
       if (search.trim()) {
         const q = search.toLowerCase().trim();
-        const title = (locale === 'ar' ? course.title_ar : course.title_en).toLowerCase();
-        const desc = (locale === 'ar' ? course.description_ar : course.description_en).toLowerCase();
+        const title = (course.title || '').toLowerCase();
+        const desc = (course.description || '').toLowerCase();
         const instructor = (course.instructor_name || '').toLowerCase();
         return title.includes(q) || desc.includes(q) || instructor.includes(q);
       }
@@ -62,17 +62,13 @@ export default function CoursesPage() {
   }, [courses, modeFilter, categoryFilter, search, locale]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
+    <div className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-6 flex flex-col">
       {/* Page Header */}
-      <div className="max-w-3xl">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-goldLight text-brand-navy border border-brand-gold/30 mb-3">
-          <BookOpen className="w-3.5 h-3.5 text-brand-gold" />
-          <span>{locale === 'ar' ? 'الكتالوج الرسمي للورشات والدورات' : 'Official Program Catalog'}</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
           {t('coursesPageTitle')}
         </h1>
-        <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">
           {t('coursesPageSubtitle')}
         </p>
       </div>
@@ -181,7 +177,7 @@ export default function CoursesPage() {
           ))}
         </div>
       ) : filteredCourses.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 shadow-xs">
+        <div className="flex-1 min-h-[320px] flex flex-col items-center justify-center text-center py-12 px-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
           <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
           <h3 className="text-lg font-bold text-slate-800 mb-1">
             {t('noCoursesFound')}

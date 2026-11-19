@@ -19,22 +19,15 @@ export default function AdminCourseModal({
   const { t, locale } = useLanguage();
   const isEditing = !!course;
 
-  const [titleEn, setTitleEn] = useState(course?.title_en || '');
-  const [titleAr, setTitleAr] = useState(course?.title_ar || '');
-  const [descEn, setDescEn] = useState(course?.description_en || '');
-  const [descAr, setDescAr] = useState(course?.description_ar || '');
+  const [title, setTitle] = useState(course?.title || '');
+  const [description, setDescription] = useState(course?.description || '');
   const [category, setCategory] = useState(course?.category || 'Workshop');
   const [date, setDate] = useState(course?.date || new Date().toISOString().split('T')[0]);
   const [time, setTime] = useState(course?.time || '09:30 - 12:30');
   const [deliveryMode, setDeliveryMode] = useState<'in_person' | 'online'>(
     course?.delivery_mode || 'in_person'
   );
-  const [locationEn, setLocationEn] = useState(
-    course?.location_en || 'Challenges Center, Main Hall - Salon de l’Emploi, Algiers'
-  );
-  const [locationAr, setLocationAr] = useState(
-    course?.location_ar || 'مركز تشالنجز، القاعة الرئيسية - صالون التشغيل، الجزائر'
-  );
+  const [location, setLocation] = useState(course?.location || '');
   const [meetingUrl, setMeetingUrl] = useState(course?.meeting_url || '');
   const [maxSeats, setMaxSeats] = useState(course?.max_seats || 30);
   const [isPublished, setIsPublished] = useState(course?.is_published ?? true);
@@ -52,22 +45,19 @@ export default function AdminCourseModal({
 
     try {
       const payload: CourseInput = {
-        title_en: titleEn,
-        title_ar: titleAr,
-        description_en: descEn,
-        description_ar: descAr,
-        category,
+        title: title.trim(),
+        description: description.trim(),
+        category: category.trim() || 'Workshop',
         date,
-        time,
+        time: time.trim(),
         delivery_mode: deliveryMode,
-        location_en: locationEn,
-        location_ar: locationAr,
-        meeting_url: deliveryMode === 'online' ? meetingUrl : undefined,
+        location: deliveryMode === 'in_person' ? location.trim() : '',
+        meeting_url: deliveryMode === 'online' ? meetingUrl.trim() : undefined,
         max_seats: Number(maxSeats),
         is_published: isPublished,
         is_featured: isFeatured,
-        instructor_name: instructorName,
-        instructor_title: instructorTitle,
+        instructor_name: instructorName.trim() || undefined,
+        instructor_title: instructorTitle.trim() || undefined,
       };
 
       const res = await fetch('/api/courses01', {
@@ -115,75 +105,49 @@ export default function AdminCourseModal({
             </div>
           )}
 
-          {/* Bilingual Titles */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Course Title (Arabic) *
-              </label>
-              <input
-                type="text"
-                required
-                value={titleAr}
-                onChange={e => setTitleAr(e.target.value)}
-                placeholder="عنوان الدورة أو الورشة بالعربية"
-                dir="rtl"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-navy"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Course Title (English) *
-              </label>
-              <input
-                type="text"
-                required
-                value={titleEn}
-                onChange={e => setTitleEn(e.target.value)}
-                placeholder="Course or workshop title in English"
-                dir="ltr"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-navy"
-              />
-            </div>
+          {/* Unified Course Title */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              {locale === 'ar' ? 'عنوان الدورة أو الورشة *' : 'Course Title *'}
+            </label>
+            <input
+              type="text"
+              required
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              placeholder={
+                locale === 'ar'
+                  ? 'أدخل عنوان الدورة أو الورشة التدريبية...'
+                  : 'Enter workshop or course title...'
+              }
+              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-navy"
+            />
           </div>
 
-          {/* Bilingual Descriptions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Description (Arabic) *
-              </label>
-              <textarea
-                required
-                rows={3}
-                value={descAr}
-                onChange={e => setDescAr(e.target.value)}
-                placeholder="الوصف الكامل للورشة وأهدافها ومحاورها..."
-                dir="rtl"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-navy"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Description (English) *
-              </label>
-              <textarea
-                required
-                rows={3}
-                value={descEn}
-                onChange={e => setDescEn(e.target.value)}
-                placeholder="Full workshop description, goals, and key takeaways..."
-                dir="ltr"
-                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-navy"
-              />
-            </div>
+          {/* Unified Course Description */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              {locale === 'ar' ? 'وصف الدورة أو الورشة *' : 'Course Description *'}
+            </label>
+            <textarea
+              required
+              rows={3}
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder={
+                locale === 'ar'
+                  ? 'الوصف الكامل للورشة وأهدافها ومحاورها...'
+                  : 'Full workshop description, goals, and key takeaways...'
+              }
+              className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-navy"
+            />
           </div>
 
           {/* Category, Date & Time */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Category
+                {locale === 'ar' ? 'المجال / التصنيف' : 'Category'}
               </label>
               <input
                 type="text"
@@ -196,7 +160,7 @@ export default function AdminCourseModal({
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Date *
+                {locale === 'ar' ? 'التاريخ *' : 'Date *'}
               </label>
               <input
                 type="date"
@@ -209,7 +173,7 @@ export default function AdminCourseModal({
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Time *
+                {locale === 'ar' ? 'التوقيت *' : 'Time *'}
               </label>
               <input
                 type="text"
@@ -226,7 +190,7 @@ export default function AdminCourseModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Delivery Mode *
+                {locale === 'ar' ? 'صيغة الحضور *' : 'Delivery Mode *'}
               </label>
               <div className="flex gap-2">
                 <button
@@ -239,7 +203,7 @@ export default function AdminCourseModal({
                   }`}
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>In-Person (حضوري)</span>
+                  <span>{locale === 'ar' ? 'حضوري' : 'In-Person'}</span>
                 </button>
                 <button
                   type="button"
@@ -251,14 +215,14 @@ export default function AdminCourseModal({
                   }`}
                 >
                   <Video className="w-3.5 h-3.5" />
-                  <span>Online (عبر الإنترنت)</span>
+                  <span>{locale === 'ar' ? 'عبر الإنترنت' : 'Online'}</span>
                 </button>
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Available Seats (Max Capacity) *
+                {locale === 'ar' ? 'المقاعد المتاحة (الحد الأقصى) *' : 'Available Seats (Max Capacity) *'}
               </label>
               <input
                 type="number"
@@ -273,42 +237,35 @@ export default function AdminCourseModal({
 
           {/* Venue Location or Online Link */}
           {deliveryMode === 'in_person' ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Location (Arabic)
-                </label>
-                <input
-                  type="text"
-                  value={locationAr}
-                  onChange={e => setLocationAr(e.target.value)}
-                  dir="rtl"
-                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Location (English)
-                </label>
-                <input
-                  type="text"
-                  value={locationEn}
-                  onChange={e => setLocationEn(e.target.value)}
-                  dir="ltr"
-                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl"
-                />
-              </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                {locale === 'ar' ? 'المكان أو القاعة *' : 'Venue / Location *'}
+              </label>
+              <input
+                type="text"
+                required
+                value={location}
+                onChange={e => setLocation(e.target.value)}
+                placeholder={
+                  locale === 'ar'
+                    ? 'مثال: قاعة المحاضرات، الطابق الثاني'
+                    : 'e.g. Main Conference Hall, 2nd Floor'
+                }
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl"
+              />
             </div>
           ) : (
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Private Meeting URL (Sent only to accepted participants)
+                {locale === 'ar'
+                  ? 'رابط الاجتماع الافتراضي (يُرسل للمقبولين فقط)'
+                  : 'Private Meeting URL (Sent only to accepted participants)'}
               </label>
               <input
                 type="url"
                 value={meetingUrl}
                 onChange={e => setMeetingUrl(e.target.value)}
-                placeholder="https://meet.challengescenter.dz/room-id"
+                placeholder="https://meet.google.com/..."
                 dir="ltr"
                 className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl"
               />
@@ -319,25 +276,25 @@ export default function AdminCourseModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Instructor Name
+                {locale === 'ar' ? 'اسم المؤطر / المدرب' : 'Instructor Name'}
               </label>
               <input
                 type="text"
                 value={instructorName}
                 onChange={e => setInstructorName(e.target.value)}
-                placeholder="Dr. Karim Benali"
+                placeholder="e.g. Dr. Karim Benali"
                 className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl"
               />
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Instructor Title / Expertise
+                {locale === 'ar' ? 'المسمى الوظيفي / تخصص المؤطر' : 'Instructor Title / Expertise'}
               </label>
               <input
                 type="text"
                 value={instructorTitle}
                 onChange={e => setInstructorTitle(e.target.value)}
-                placeholder="Senior HR Consultant & Talent Director"
+                placeholder="e.g. Senior HR Consultant & Talent Director"
                 className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl"
               />
             </div>
@@ -352,7 +309,7 @@ export default function AdminCourseModal({
                 onChange={e => setIsPublished(e.target.checked)}
                 className="h-4 w-4 rounded border-slate-300 text-brand-navy focus:ring-brand-gold"
               />
-              <span>{t('published')} (Publicly visible)</span>
+              <span>{t('published')} ({locale === 'ar' ? 'مرئية في الكتالوج' : 'Publicly visible'})</span>
             </label>
 
             <label className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer select-none">
@@ -364,7 +321,7 @@ export default function AdminCourseModal({
               />
               <span className="flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
-                <span>Featured on Homepage</span>
+                <span>{locale === 'ar' ? 'ورشة مميزة في الواجهة الرئيسية' : 'Featured on Homepage'}</span>
               </span>
             </label>
           </div>

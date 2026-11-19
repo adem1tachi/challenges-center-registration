@@ -14,9 +14,9 @@ interface CourseCardProps {
 export default function CourseCard({ course }: CourseCardProps) {
   const { t, locale, isRtl } = useLanguage();
 
-  const title = locale === 'ar' ? course.title_ar : course.title_en;
-  const description = locale === 'ar' ? course.description_ar : course.description_en;
-  const location = locale === 'ar' ? course.location_ar : course.location_en;
+  const title = course.title;
+  const description = course.description;
+  const location = course.location;
 
   const accepted = course.accepted_count ?? 0;
   const seatsLeft = Math.max(0, course.max_seats - accepted);

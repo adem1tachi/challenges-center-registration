@@ -9,16 +9,13 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- 2. Create courses table
 CREATE TABLE IF NOT EXISTS courses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title_en TEXT NOT NULL,
-    title_ar TEXT NOT NULL,
-    description_en TEXT NOT NULL,
-    description_ar TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
     category TEXT NOT NULL DEFAULT 'Workshop',
     date DATE NOT NULL,
     time TEXT NOT NULL,
     delivery_mode TEXT NOT NULL CHECK (delivery_mode IN ('in_person', 'online')),
-    location_en TEXT NOT NULL,
-    location_ar TEXT NOT NULL,
+    location TEXT NOT NULL DEFAULT '',
     meeting_url TEXT, -- Private meeting link for online sessions
     max_seats INTEGER NOT NULL CHECK (max_seats > 0),
     is_published BOOLEAN NOT NULL DEFAULT true,

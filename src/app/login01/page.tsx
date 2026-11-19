@@ -2,10 +2,10 @@
 
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
-import { Lock, Mail, Loader2, AlertCircle, Shield, ArrowRight, ArrowLeft } from 'lucide-react';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { Lock, Mail, Loader2, AlertCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 
 function LoginForm() {
   const { t, locale, isRtl } = useLanguage();
@@ -32,59 +32,36 @@ function LoginForm() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Authentication failed');
+        throw new Error(data.error || (locale === 'ar' ? 'فشل تسجيل الدخول' : 'Authentication failed'));
       }
 
       router.push(redirectPath);
       router.refresh();
     } catch (err: any) {
       console.error(err);
-      setError(err.message || 'Invalid email or password');
+      setError(err.message || (locale === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid email or password'));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleFillDemo = () => {
-    setEmail('admin@challengescenter.dz');
-    setPassword('ChallengesCenter2026!');
-  };
-
-  const ArrowIcon = isRtl ? ArrowRight : ArrowLeft;
+  const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
   return (
-    <div className="max-w-md w-full space-y-8 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl">
-      {/* Header & Logos */}
+    <div className="max-w-md w-full space-y-6 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-xl">
+      {/* Header with clean Lock Icon */}
       <div className="text-center">
-        <div className="inline-flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-200 mb-4">
-          <div className="w-10 h-10 rounded-full bg-white p-1 flex items-center justify-center shadow-xs">
-            <Image
-              src="/images/salon-emploi-logo.png"
-              alt="Salon de l'Emploi"
-              width={36}
-              height={36}
-              className="object-contain"
-            />
-          </div>
-          <div className="h-6 w-px bg-slate-200" />
-          <div className="h-8 w-24 flex items-center">
-            <Image
-              src="/images/challenges-center-logo.png"
-              alt="Challenges Center"
-              width={96}
-              height={30}
-              className="object-contain"
-            />
-          </div>
+        <div className="inline-flex items-center justify-center w-13 h-13 rounded-2xl bg-brand-navy text-brand-gold shadow-xs mb-4">
+          <Lock className="w-6 h-6" />
         </div>
 
         <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-          {locale === 'ar' ? 'تسجيل دخول الإدارة' : 'Staff & Administration Login'}
+          {locale === 'ar' ? 'تسجيل دخول الإدارة' : 'Admin Portal Login'}
         </h2>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1.5 text-xs text-slate-500">
           {locale === 'ar'
-            ? 'يرجى تسجيل الدخول للوصول إلى لوحة التحكم وإدارة الورشات والتسجيلات'
-            : 'Sign in to access course management and participant rosters'}
+            ? 'يرجى إدخال بيانات الاعتماد للوصول إلى لوحة التحكم'
+            : 'Enter authorized credentials to access management dashboard'}
         </p>
       </div>
 
@@ -109,9 +86,9 @@ function LoginForm() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="admin@challengescenter.dz"
+              placeholder="admin@example.com"
               dir="ltr"
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy transition-all"
             />
           </div>
         </div>
@@ -131,7 +108,7 @@ function LoginForm() {
               onChange={e => setPassword(e.target.value)}
               placeholder="••••••••••••"
               dir="ltr"
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40 focus:border-brand-navy transition-all"
             />
           </div>
         </div>
@@ -152,28 +129,7 @@ function LoginForm() {
         </button>
       </form>
 
-      {/* Demo Credentials Helper Box */}
-      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
-        <div className="flex items-center justify-between">
-          <span className="font-bold text-slate-700 flex items-center gap-1">
-            <Shield className="w-3.5 h-3.5 text-brand-gold" />
-            <span>{locale === 'ar' ? 'بيانات المشرف التجريبية:' : 'Staff Demo Access:'}</span>
-          </span>
-          <button
-            type="button"
-            onClick={handleFillDemo}
-            className="text-brand-navy font-bold hover:underline"
-          >
-            {locale === 'ar' ? 'تعبئة تلقائية' : 'Auto-fill'}
-          </button>
-        </div>
-        <div className="font-mono text-[11px] text-slate-600 space-y-0.5" dir="ltr">
-          <div>Email: <span className="font-semibold text-slate-800">admin@challengescenter.dz</span></div>
-          <div>Password: <span className="font-semibold text-slate-800">ChallengesCenter2026!</span></div>
-        </div>
-      </div>
-
-      <div className="text-center">
+      <div className="text-center pt-2">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-brand-navy transition-colors font-medium"
@@ -188,8 +144,11 @@ function LoginForm() {
 
 export default function AdminLoginPage() {
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <Suspense fallback={<div className="h-96 w-full max-w-md bg-slate-100 rounded-3xl animate-pulse" />}>
+    <div className="min-h-screen bg-slate-100/80 flex flex-col justify-center items-center px-4 py-12 sm:px-6 lg:px-8 relative">
+      <div className="absolute top-5 end-6 z-10">
+        <LanguageSwitcher variant="light" />
+      </div>
+      <Suspense fallback={<div className="h-96 w-full max-w-md bg-white rounded-3xl animate-pulse" />}>
         <LoginForm />
       </Suspense>
     </div>

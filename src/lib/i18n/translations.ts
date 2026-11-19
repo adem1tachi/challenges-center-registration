@@ -14,20 +14,20 @@ export const translations = {
     switchLanguage: 'English',
 
     // Hero Section
-    heroBadge: 'مبادرة خاصة بمناسبة صالون التشغيل 2026',
-    heroTitle: 'طوّر مهاراتك وانطلق نحو مستقبلك المهني مع مركز تشالنجز',
+    heroBadge: 'الصالون الوطني للتشغيل 2026 • المنصة الرسمية',
+    heroTitle: 'الصالون الوطني للتشغيل 2026 - المنصة الرسمية للتسجيل',
     heroSubtitle:
-      'ورشات تدريبية مكثفة ودورات احترافية حضورية وعبر الإنترنت، مصممة خصيصاً لتمكينك من دخول سوق العمل والارتقاء بمسارك المهني.',
-    heroPrimaryCta: 'استكشف الورشات المتاحة',
-    heroSecondaryCta: 'تواصل مع مركز تشالنجز',
+      'ينظم الصالون الوطني للتشغيل باقة من الورشات التطبيقية المتخصصة بالشراكة مع مركز تشالنجز (Challenges Center) لتمكين الشباب وتأهيلهم المباشر لسوق العمل. احجز مقعدك مجاناً وبادر بالتسجيل.',
+    heroPrimaryCta: 'استعراض الورشات المتاحة',
+    heroSecondaryCta: 'تواصل مع المنظمين',
     heroStatsCourses: 'ورشات ودورات متخصصة',
     heroStatsParticipants: 'مقاعد مخصصة لرواد الصالون',
     heroStatsMentors: 'خبراء ومؤطرون معتمدون',
 
     // Featured Section
     featuredTitle: 'أبرز الورشات والدورات القادمة',
-    featuredSubtitle: 'اختر الورشة التي تناسب طموحاتك وبادر بحجز مقعدك قبل اكتمال العدد',
-    viewAllCourses: 'عرض جميع الدورات والورشات',
+    featuredSubtitle: 'اختر ورشتك المناسبة وبادر بحجز مقعدك المسبق.',
+    viewAllCourses: 'عرض جميع الورشات والدورات',
 
     // About Section
     aboutTitle: 'عن صالون التشغيل ومركز تشالنجز',
@@ -186,20 +186,20 @@ export const translations = {
     switchLanguage: 'العربية',
 
     // Hero Section
-    heroBadge: 'Exclusive Initiative for Salon de l’Emploi 2026',
-    heroTitle: 'Accelerate Your Career with Challenges Center Masterclasses',
+    heroBadge: 'Salon de l’Emploi 2026 • Official Platform',
+    heroTitle: 'Salon de l’Emploi 2026 - Official Registration Platform',
     heroSubtitle:
-      'High-impact in-person and online workshops engineered to equip you with the exact competencies and confidence employers are seeking right now.',
-    heroPrimaryCta: 'Explore Available Courses',
-    heroSecondaryCta: 'Contact Challenges Center',
+      'Organized by Salon de l’Emploi in partnership with Challenges Center to deliver specialized practical workshops. Reserve your seat directly and register now.',
+    heroPrimaryCta: 'Explore Available Workshops',
+    heroSecondaryCta: 'Contact Organizers',
     heroStatsCourses: 'Specialized Workshops',
     heroStatsParticipants: 'Exclusive Seats',
     heroStatsMentors: 'Certified Industry Mentors',
 
     // Featured Section
     featuredTitle: 'Featured & Upcoming Workshops',
-    featuredSubtitle: 'Choose the workshop tailored to your career ambitions and reserve your seat before capacity is reached',
-    viewAllCourses: 'View All Courses & Workshops',
+    featuredSubtitle: 'Select your preferred workshop and reserve your seat early.',
+    viewAllCourses: 'View All Workshops',
 
     // About Section
     aboutTitle: 'About Salon de l’Emploi & Challenges Center',
