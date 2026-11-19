@@ -20,7 +20,7 @@ export default function Footer() {
 
         {/* --- OPTIONAL JOKE TAG (Easy to remove) --- */}
         {SHOW_EASTER_EGG && (
-          <span className="text-[11px] text-beige-400/60 font-mono italic tracking-wide select-none">
+          <span className="text-xs sm:text-sm text-beige-100 font-mono font-bold tracking-wide select-none">
             Still better than your IT guy.
           </span>
         )}
