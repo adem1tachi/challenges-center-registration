@@ -31,49 +31,41 @@ export async function POST(request: NextRequest) {
 
     const cleanEmail = email.trim().toLowerCase();
 
-    // 2. Try Supabase Auth first if configured
+    // 2. Authenticate strictly via Supabase Auth (industry-standard hashed credentials)
     const supabase = createServerSupabaseClient();
-    if (supabase) {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password,
-      });
-
-      if (!error && data?.session && data.user) {
-        const token = await createAdminSessionToken(data.user.email || cleanEmail);
-        const response = NextResponse.json({ success: true });
-        response.cookies.set(COOKIE_NAME, token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          maxAge: 60 * 60 * 24 * 7, // 7 days
-          path: '/',
-        });
-        return response;
-      }
+    if (!supabase) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            'خدمة المصادقة غير مهيأة. يرجى تهيئة متغيرات Supabase في بيئة التشغيل. (Authentication service not configured)',
+        },
+        { status: 503 }
+      );
     }
 
-    // 3. Fallback Admin Authentication (Controlled via Environment Variables)
-    const defaultEmail = (process.env.ADMIN_DEFAULT_EMAIL || 'admin@challengescenter.dz').toLowerCase();
-    const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'ChallengesCenter2026!';
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: cleanEmail,
+      password,
+    });
 
-    if (cleanEmail === defaultEmail && password === defaultPassword) {
-      const token = await createAdminSessionToken(cleanEmail);
-      const response = NextResponse.json({ success: true });
-      response.cookies.set(COOKIE_NAME, token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-        path: '/',
-      });
-      return response;
+    if (error || !data?.session || !data.user) {
+      return NextResponse.json(
+        { success: false, error: 'بيانات الدخول غير صحيحة (Invalid email or password)' },
+        { status: 401 }
+      );
     }
 
-    return NextResponse.json(
-      { success: false, error: 'بيانات الدخول غير صحيحة (Invalid email or password)' },
-      { status: 401 }
-    );
+    const token = await createAdminSessionToken(data.user.email || cleanEmail);
+    const response = NextResponse.json({ success: true });
+    response.cookies.set(COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
+    return response;
   } catch (error) {
     console.error('Error in login route:', error);
     return NextResponse.json(

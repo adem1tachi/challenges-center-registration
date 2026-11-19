@@ -56,14 +56,18 @@ cp .env.example .env.local
 ```
 
 ```env
+ADMIN_SESSION_SECRET=replace-with-a-secure-random-32-byte-secret-key
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
-
-# Default admin credentials
-ADMIN_DEFAULT_EMAIL=admin@challengescenter.dz
-ADMIN_DEFAULT_PASSWORD=ChallengesCenter2026!
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
+
+### 3. Create Admin Account (Supabase Auth)
+Create an authorized admin user directly via your Supabase Dashboard:
+1. Go to **Authentication** -> **Users** -> **Add user**.
+2. Enter your admin email and a strong password.
+3. Log in to the platform via `/login01`.
 
 ### 3. Database Setup (Supabase)
 Run the SQL migrations located in:
