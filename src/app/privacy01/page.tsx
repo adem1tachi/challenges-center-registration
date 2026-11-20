@@ -42,7 +42,7 @@ export default function PrivacyPolicyPage() {
                 <span>1. الإطار القانوني والامتثال لأحكام القانون رقم 18-07</span>
               </h2>
               <p>
-                تلتزم مؤسسة <strong>مركز تشالنجز (Challenges Center)</strong>، المنظمة لورشات العمل بالتنسيق مع <strong>صالون التشغيل (Salon de l’Emploi)</strong>، بحماية خصوصية كافة المشاركين والزوار بما يتوافق بدقة مع أحكام <strong>القانون الجزائري رقم 18-07 المؤرخ في 10 جوان 2018</strong> المتعلق بحماية الأشخاص الطبيعيين في مجال معالجة المعطيات ذات الطابع الشخصي.
+                يلتزم <strong>النادي الجامعي EIC (Economic Ingeniuses)</strong> التابع <strong>للمدرسة الوطنية العليا للإحصاء والاقتصاد التطبيقي (ENSSEA)</strong>، المنظم لورشات العمل بالتنسيق والشراكة مع <strong>مركز تشالنجز (Challenges Center)</strong>، بحماية خصوصية كافة المشاركين والزوار بما يتوافق بدقة مع أحكام <strong>القانون الجزائري رقم 18-07 المؤرخ في 10 جوان 2018</strong> المتعلق بحماية الأشخاص الطبيعيين في مجال معالجة المعطيات ذات الطابع الشخصي.
               </p>
             </section>
 
@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
                 <span>3. أمن البيانات وسريتها</span>
               </h2>
               <p>
-                تُخزن جميع البيانات في قواعد بيانات مؤمنة مع تفعيل بروتوكولات الأمان الصارمة وسياسات أمان على مستوى الصفوف (Row Level Security - RLS). ولا يُسمح بالاطلاع على البيانات إلا لمسؤولي المركز المخولين إدارياً. كما نضمن عدم نشر أو مشاركة أي بيانات شخصية أو أرقام هواتف علناً على المنصة.
+                تُخزن جميع البيانات في قواعد بيانات مؤمنة مع تفعيل بروتوكولات الأمان الصارمة وسياسات أمان على مستوى الصفوف (Row Level Security - RLS). ولا يُسمح بالاطلاع على البيانات إلا لإدارة النادي والمنظمين المخولين إدارياً. كما نضمن عدم نشر أو مشاركة أي بيانات شخصية أو أرقام هواتف علناً على المنصة.
               </p>
             </section>
 
@@ -82,7 +82,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc list-inside space-y-1 ps-2 text-beige-700">
                 <li>حق الاطلاع على بياناته الشخصية المسجلة في النظام.</li>
                 <li>حق طلب تصحيح أي بيانات غير دقيقة أو تعديلها.</li>
-                <li>حق طلب حذف تسجيله وإلغاء مقعده في أي وقت عبر التواصل مع إدارة المركز.</li>
+                <li>حق طلب حذف تسجيله وإلغاء مقعده في أي وقت عبر التواصل مع إدارة النادي أو المنظمين.</li>
               </ul>
             </section>
 
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
                 <span>1. Legal Framework & Algerian Law No. 18-07 Compliance</span>
               </h2>
               <p>
-                <strong>Challenges Center</strong>, in strategic partnership with <strong>Salon de l’Emploi</strong>, is rigorously committed to safeguarding participant privacy in full conformity with <strong>Algerian Law No. 18-07 of June 10, 2018</strong> regarding the protection of natural persons in the processing of personal data.
+                The university club <strong>EIC (Economic Ingeniuses)</strong> affiliated with the <strong>Higher National School of Statistics and Applied Economics (ENSSEA)</strong>, organizing the workshops in coordination and partnership with <strong>Challenges Center</strong>, is rigorously committed to safeguarding participant privacy in full conformity with <strong>Algerian Law No. 18-07 of June 10, 2018</strong> regarding the protection of natural persons in the processing of personal data.
               </p>
             </section>
 
@@ -128,14 +128,14 @@ export default function PrivacyPolicyPage() {
                 <span>3. Data Security & Row-Level Confidentiality</span>
               </h2>
               <p>
-                All data is encrypted in transit and stored in protected databases utilizing Row Level Security (RLS) policies. Only authenticated, authorized administrative staff can access participant lists. Participant information is never disclosed publicly.
+                All data is encrypted in transit and stored in protected databases utilizing Row Level Security (RLS) policies. Only authenticated, authorized organizing staff and club administrators can access participant lists. Participant information is never disclosed publicly.
               </p>
             </section>
 
             <section className="space-y-3">
               <h2 className="text-lg font-bold text-beige-900">4. Participant Rights</h2>
               <p>
-                Pursuant to Articles 32 and 34 of Algerian Law No. 18-07, each registrant holds the right to access, rectify, or request deletion of their personal data by contacting Challenges Center administration.
+                Pursuant to Articles 32 and 34 of Algerian Law No. 18-07, each registrant holds the right to access, rectify, or request deletion of their personal data by contacting the EIC club administration or organizers.
               </p>
             </section>
 
