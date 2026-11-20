@@ -72,9 +72,12 @@ export const translations = {
     regFormTitle: 'استمارة التسجيل في الورشة',
     regFormSubtitle: 'يرجى إدخال بياناتك بدقة لتأكيد تسجيلك واستلام تأكيد الحضور',
     firstName: 'الاسم الأول',
+    firstNamePlaceholder: 'آدم',
     lastName: 'اللقب (اسم العائلة)',
+    lastNamePlaceholder: 'طاشي',
     phone: 'رقم الهاتف (الجزائر)',
-    phonePlaceholder: '05xxxxxxxx / 06xxxxxxxx / 07xxxxxxxx',
+    phonePlaceholder: '05xxxxxxxx',
+    phoneHelper: '10 أرقام تبدأ بـ 05 أو 06 أو 07',
     email: 'البريد الإلكتروني',
     emailPlaceholder: 'example@email.com',
     submitRegistration: 'تأكيد التسجيل الآن',
@@ -83,6 +86,9 @@ export const translations = {
 
     // Consent Checkboxes (Law 18-07)
     consentTitle: 'الموافقات الإلزامية والامتثال القانوني:',
+    consentAgreement: 'أوافق على الشروط والأحكام وسياسة الخصوصية وفق القانون الجزائري 18-07',
+    termsAndConditions: 'الشروط والأحكام',
+    privacyPolicy: 'سياسة الخصوصية',
     consentPrivacy: 'أوافق على سياسة الخصوصية الخاصة بالمنصة ومعالجة بياناتي.',
     consentTerms: 'أوافق على الشروط والأحكام العامة للمشاركة والالتزام بالحضور.',
     consentLaw1807:
@@ -99,7 +105,7 @@ export const translations = {
     registerAnother: 'تسجيل في دورة أخرى',
     errDuplicate: 'لقد قمت بالتسجيل مسبقاً في هذه الورشة باستخدام هذا البريد الإلكتروني.',
     errFull: 'عذراً، هذه الورشة مكتملة العدد حالياً.',
-    errConsent: 'يجب الموافقة على جميع بنود الخصوصية والشروط والقانون 18-07 للمتابعة.',
+    errConsent: 'يجب الموافقة على الشروط والأحكام وسياسة الخصوصية وفق القانون 18-07 للمتابعة.',
     errGeneral: 'حدث خطأ أثناء معالجة الطلب، يرجى المحاولة مرة أخرى.',
 
     // Admin Dashboard
@@ -244,9 +250,12 @@ export const translations = {
     regFormTitle: 'Participant Registration Form',
     regFormSubtitle: 'Please submit accurate information to guarantee your seat confirmation',
     firstName: 'First Name',
+    firstNamePlaceholder: 'Adem',
     lastName: 'Last Name',
+    lastNamePlaceholder: 'Tachi',
     phone: 'Phone Number (Algeria)',
-    phonePlaceholder: '05xxxxxxxx / 06xxxxxxxx / 07xxxxxxxx',
+    phonePlaceholder: '05xxxxxxxx',
+    phoneHelper: '10 digits starting with 05, 06, or 07',
     email: 'Email Address',
     emailPlaceholder: 'example@email.com',
     submitRegistration: 'Submit Registration Now',
@@ -255,6 +264,9 @@ export const translations = {
 
     // Consent Checkboxes (Law 18-07)
     consentTitle: 'Mandatory Legal Consents & Compliance:',
+    consentAgreement: 'I agree to the Terms and Conditions and Privacy Policy in accordance with Algerian Law 18-07',
+    termsAndConditions: 'Terms and Conditions',
+    privacyPolicy: 'Privacy Policy',
     consentPrivacy: 'I agree to the platform Privacy Policy and the processing of my information.',
     consentTerms: 'I agree to the Terms and Conditions of Participation and commit to attending.',
     consentLaw1807:
@@ -271,7 +283,7 @@ export const translations = {
     registerAnother: 'Register for Another Course',
     errDuplicate: 'You are already registered for this course with this email address.',
     errFull: 'Sorry, this course is fully booked.',
-    errConsent: 'You must check all mandatory legal consent boxes to complete registration.',
+    errConsent: 'You must agree to the Terms and Conditions and Privacy Policy under Law 18-07 to proceed.',
     errGeneral: 'An error occurred while processing your registration. Please try again.',
 
     // Admin Dashboard

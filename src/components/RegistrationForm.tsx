@@ -12,8 +12,6 @@ import {
   User,
   Phone,
   Mail,
-  ShieldCheck,
-  ExternalLink,
   Ticket,
 } from 'lucide-react';
 
@@ -29,9 +27,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
 
-  const [consentPrivacy, setConsentPrivacy] = useState(false);
-  const [consentTerms, setConsentTerms] = useState(false);
-  const [consentDataLaw, setConsentDataLaw] = useState(false);
+  const [consentAgreed, setConsentAgreed] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -63,7 +59,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
       return;
     }
 
-    if (!consentPrivacy || !consentTerms || !consentDataLaw) {
+    if (!consentAgreed) {
       setErrorMsg(t('errConsent'));
       return;
     }
@@ -80,9 +76,9 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
           last_name: lastName.trim(),
           phone: phone.trim(),
           email: email.trim().toLowerCase(),
-          consent_privacy: consentPrivacy,
-          consent_terms: consentTerms,
-          consent_data_law: consentDataLaw,
+          consent_privacy: consentAgreed,
+          consent_terms: consentAgreed,
+          consent_data_law: consentAgreed,
         }),
       });
 
@@ -188,9 +184,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               setLastName('');
               setPhone('');
               setEmail('');
-              setConsentPrivacy(false);
-              setConsentTerms(false);
-              setConsentDataLaw(false);
+              setConsentAgreed(false);
             }}
             type="button"
             className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-sm font-semibold text-beige-800 bg-beige-100 hover:bg-beige-200 transition-colors"
@@ -238,7 +232,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               required
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
-              placeholder={locale === 'ar' ? 'محمد' : 'Mohammed'}
+              placeholder={t('firstNamePlaceholder')}
               className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all"
             />
           </div>
@@ -257,7 +251,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               required
               value={lastName}
               onChange={e => setLastName(e.target.value)}
-              placeholder={locale === 'ar' ? 'بن علي' : 'Benali'}
+              placeholder={t('lastNamePlaceholder')}
               className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all"
             />
           </div>
@@ -285,7 +279,7 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
             />
           </div>
           <span className="text-[11px] text-beige-600 mt-1 block">
-            {locale === 'ar' ? 'مثال: 0550123456 أو 0661234567 أو 0770123456' : 'e.g., 0550123456 / 0661234567 / 0770123456'}
+            {t('phoneHelper')}
           </span>
         </div>
 
@@ -307,74 +301,61 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 text-start transition-all"
             />
           </div>
-          <span className="text-[11px] text-beige-600 mt-1 block">
-            {locale === 'ar' ? 'مطلوب لمنع التكرار واستلام تأكيد الحضور' : 'Used for unique enrollment and confirmation'}
-          </span>
         </div>
       </div>
 
-      {/* Mandatory Consents (Law 18-07 Compliance) */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-beige-100/70 border border-beige-300/80 space-y-3.5 mb-6">
-        <div className="flex items-center gap-2 text-xs font-bold text-beige-900">
-          <ShieldCheck className="w-4 h-4 text-ruby-700" />
-          <span>{t('consentTitle')}</span>
-        </div>
-
-        {/* Checkbox 1: Privacy Policy */}
-        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
+      {/* Mandatory Consents (Law 18-07 Compliance) - Single Line */}
+      <div className="mb-6">
+        <label className="flex items-start gap-2.5 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
           <input
             type="checkbox"
             required
-            checked={consentPrivacy}
-            onChange={e => setConsentPrivacy(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
+            checked={consentAgreed}
+            onChange={e => setConsentAgreed(e.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600 cursor-pointer"
           />
           <span className="leading-relaxed">
-            {t('consentPrivacy')}{' '}
-            <Link
-              href="/privacy01"
-              target="_blank"
-              className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2 inline-flex items-center gap-0.5"
-            >
-              <span>{t('readPrivacy')}</span>
-              <ExternalLink className="w-3 h-3" />
-            </Link>
-          </span>
-        </label>
-
-        {/* Checkbox 2: Terms of Participation */}
-        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
-          <input
-            type="checkbox"
-            required
-            checked={consentTerms}
-            onChange={e => setConsentTerms(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
-          />
-          <span className="leading-relaxed">
-            {t('consentTerms')}{' '}
-            <Link
-              href="/terms01"
-              target="_blank"
-              className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2 inline-flex items-center gap-0.5"
-            >
-              <span>{t('readTerms')}</span>
-              <ExternalLink className="w-3 h-3" />
-            </Link>
-          </span>
-        </label>
-
-        {/* Checkbox 3: Algerian Law No. 18-07 */}
-        <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-beige-800 select-none">
-          <input
-            type="checkbox"
-            required
-            checked={consentDataLaw}
-            onChange={e => setConsentDataLaw(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
-          />
-          <span className="leading-relaxed text-beige-900 font-medium">
-            {t('consentLaw1807')}
+            {locale === 'ar' ? (
+              <>
+                أوافق على{' '}
+                <Link
+                  href="/terms01"
+                  target="_blank"
+                  className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2"
+                >
+                  الشروط والأحكام
+                </Link>{' '}
+                و
+                <Link
+                  href="/privacy01"
+                  target="_blank"
+                  className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2"
+                >
+                  سياسة الخصوصية
+                </Link>{' '}
+                وفق القانون الجزائري 18-07.
+              </>
+            ) : (
+              <>
+                I agree to the{' '}
+                <Link
+                  href="/terms01"
+                  target="_blank"
+                  className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2"
+                >
+                  Terms and Conditions
+                </Link>{' '}
+                and{' '}
+                <Link
+                  href="/privacy01"
+                  target="_blank"
+                  className="text-ruby-700 hover:text-ruby-800 font-semibold underline underline-offset-2"
+                >
+                  Privacy Policy
+                </Link>{' '}
+                in accordance with Algerian Law 18-07.
+              </>
+            )}
           </span>
         </label>
       </div>

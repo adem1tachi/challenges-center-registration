@@ -88,7 +88,7 @@ export default function PrivacyPolicyPage() {
 
             <section className="space-y-2 pt-4 border-t border-beige-200 text-xs text-beige-600">
               <p>
-                لأي استفسار بخصوص معالجة البيانات الشخصية أو ممارسة حقوقكم القانونية، يمكنكم التواصل مع مسؤول حماية البيانات عبر: <strong>privacy@challengescenter.dz</strong>
+                لأي استفسار بخصوص معالجة البيانات الشخصية أو ممارسة حقوقكم القانونية، يمكنكم التواصل مع مسؤول حماية البيانات عبر: <strong>eic.enssea@gmail.com</strong>
               </p>
             </section>
           </>
@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
 
             <section className="space-y-2 pt-4 border-t border-beige-200 text-xs text-beige-600">
               <p>
-                For any inquiries regarding data protection, please contact: <strong>privacy@challengescenter.dz</strong>
+                For any inquiries regarding data protection, please contact: <strong>eic.enssea@gmail.com</strong>
               </p>
             </section>
           </>
