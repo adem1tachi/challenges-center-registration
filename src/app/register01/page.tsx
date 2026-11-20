@@ -9,6 +9,7 @@ import { formatDate } from '@/lib/utils';
 import AdminLayout from '@/components/admin/AdminLayout';
 import AttendanceSheetModal from '@/components/AttendanceSheetModal';
 import ParticipantDetailsModal from '@/components/ParticipantDetailsModal';
+import ExportModal from '@/components/ExportModal';
 import {
   Users,
   Search,
@@ -43,6 +44,8 @@ function RegistrationManagementContent() {
   // Modals
   const [attendanceModalCourse, setAttendanceModalCourse] = useState<Course | null>(null);
   const [selectedParticipant, setSelectedParticipant] = useState<Registration | null>(null);
+  const [exportModalOpen, setExportModalOpen] = useState<boolean>(false);
+  const [exportModalFormat, setExportModalFormat] = useState<'pdf' | 'csv'>('pdf');
 
   // Sync courseId from URL query param if present
   useEffect(() => {
@@ -219,44 +222,42 @@ function RegistrationManagementContent() {
   };
 
   const headerActions = (
-    <>
+    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
       <button
         onClick={fetchData}
         type="button"
-        className="p-2.5 bg-white border border-beige-300 rounded-xl text-beige-700 hover:text-ruby-700 hover:border-ruby-600/50 shadow-xs transition-colors"
-        title={locale === 'ar' ? 'تحديث البيانات' : 'Refresh'}
+        className="p-2 sm:p-2.5 bg-white border border-beige-300 rounded-xl text-beige-700 hover:text-ruby-700 hover:border-ruby-600/50 shadow-xs transition-colors shrink-0"
+        title={locale === 'ar' ? 'تحديث' : 'Refresh'}
       >
         <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
       </button>
 
       {/* Export to CSV Button */}
       <button
-        onClick={handleExportCSV}
+        onClick={() => {
+          setExportModalFormat('csv');
+          setExportModalOpen(true);
+        }}
         type="button"
-        disabled={acceptedForActiveCourse.length === 0}
-        className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs transition-colors"
       >
-        <FileSpreadsheet className="w-4 h-4" />
-        <span>{t('exportCsv')} ({acceptedForActiveCourse.length})</span>
+        <FileSpreadsheet className="w-4 h-4 shrink-0" />
+        <span>{t('exportCsv')}</span>
       </button>
 
       {/* Generate Attendance Sheet PDF Button */}
       <button
         onClick={() => {
-          if (activeCourse) {
-            setAttendanceModalCourse(activeCourse);
-          } else if (courses.length > 0) {
-            setAttendanceModalCourse(courses[0]);
-          }
+          setExportModalFormat('pdf');
+          setExportModalOpen(true);
         }}
         type="button"
-        disabled={courses.length === 0}
-        className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-ruby-700 hover:bg-ruby-800 text-beige-50 shadow-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-ruby-700 hover:bg-ruby-800 text-white shadow-xs transition-colors"
       >
-        <Printer className="w-4 h-4 text-beige-200" />
+        <Download className="w-4 h-4 shrink-0" />
         <span>{t('printAttendance')}</span>
       </button>
-    </>
+    </div>
   );
 
   return (
@@ -580,7 +581,7 @@ function RegistrationManagementContent() {
         </div>
       </div>
 
-      {/* Attendance Sheet Print Modal */}
+      {/* Attendance Sheet Modal */}
       {attendanceModalCourse && (
         <AttendanceSheetModal
           course={attendanceModalCourse}
@@ -588,6 +589,21 @@ function RegistrationManagementContent() {
             r => r.course_id === attendanceModalCourse.id && r.status === 'accepted'
           )}
           onClose={() => setAttendanceModalCourse(null)}
+        />
+      )}
+
+      {/* Export & Download Configuration Modal */}
+      {exportModalOpen && (
+        <ExportModal
+          isOpen={exportModalOpen}
+          onClose={() => setExportModalOpen(false)}
+          courses={courses}
+          registrations={registrations}
+          initialFormat={exportModalFormat}
+          initialCourseId={selectedCourseId}
+          onOpenAttendancePreview={(course, participants) => {
+            setAttendanceModalCourse(course);
+          }}
         />
       )}
 

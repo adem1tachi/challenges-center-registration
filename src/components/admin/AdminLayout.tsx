@@ -197,8 +197,8 @@ export default function AdminLayout({
           ===================================================================== */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {(title || actions) && (
-          <div className="bg-white border-b border-beige-300 px-6 sm:px-8 py-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="bg-white border-b border-beige-300 px-4 sm:px-8 py-4 sm:py-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
                 {title && (
                   <h1 className="text-xl sm:text-2xl font-bold text-beige-900 tracking-tight">
@@ -211,7 +211,7 @@ export default function AdminLayout({
                   </p>
                 )}
               </div>
-              {actions && <div className="flex items-center gap-2.5">{actions}</div>}
+              {actions && <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">{actions}</div>}
             </div>
           </div>
         )}
