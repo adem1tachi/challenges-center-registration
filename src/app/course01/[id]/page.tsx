@@ -16,7 +16,7 @@ import {
   User,
   ArrowRight,
   ArrowLeft,
-  Sparkles,
+  Star,
   BookOpen,
 } from 'lucide-react';
 
@@ -138,7 +138,7 @@ export default function CourseDetailPage() {
 
             {course.is_featured && (
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-                <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
+                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                 <span>{locale === 'ar' ? 'ورشة مميزة' : 'Featured'}</span>
               </span>
             )}

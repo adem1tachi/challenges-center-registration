@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Course, CourseInput } from '@/types';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
-import { X, Loader2, Sparkles, Video, MapPin } from 'lucide-react';
+import { X, Loader2, Star, Video, MapPin } from 'lucide-react';
 
 interface AdminCourseModalProps {
   course?: Course | null;
@@ -320,7 +320,7 @@ export default function AdminCourseModal({
                 className="h-4 w-4 rounded border-beige-300 text-ruby-700 focus:ring-ruby-600"
               />
               <span className="flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-ruby-700" />
+                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                 <span>{locale === 'ar' ? 'ورشة مميزة في الواجهة الرئيسية' : 'Featured on Homepage'}</span>
               </span>
             </label>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Course } from '@/types';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { formatDate } from '@/lib/utils';
-import { Calendar, Clock, MapPin, Video, Users, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { Calendar, Clock, MapPin, Video, Users, ArrowRight, ArrowLeft, Star } from 'lucide-react';
 
 interface CourseCardProps {
   course: Course;
@@ -64,8 +64,8 @@ export default function CourseCard({ course }: CourseCardProps) {
 
             {/* Featured badge */}
             {course.is_featured && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-800 border border-amber-200">
-                <Sparkles className="w-3 h-3 text-brand-gold" />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
                 <span>{locale === 'ar' ? 'مميزة' : 'Featured'}</span>
               </span>
             )}

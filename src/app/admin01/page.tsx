@@ -19,6 +19,7 @@ import {
   MapPin,
   Video,
   Layers,
+  Star,
   Sparkles,
   BarChart3,
   ExternalLink,
@@ -236,8 +237,9 @@ export default function AdminCoursesPage() {
                               {course.category}
                             </span>
                             {course.is_featured && (
-                              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
-                                {locale === 'ar' ? 'مميزة' : 'Featured'}
+                              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200 inline-flex items-center gap-1">
+                                <Star className="w-2.5 h-2.5 text-amber-600 fill-amber-600" />
+                                <span>{locale === 'ar' ? 'مميزة' : 'Featured'}</span>
                               </span>
                             )}
                           </div>
@@ -355,12 +357,12 @@ export default function AdminCoursesPage() {
             </table>
           </div>
 
-          {/* MOBILE VIEW: Compact Clean Cards */}
-          <div className="block md:hidden divide-y divide-beige-200">
+          {/* MOBILE VIEW: Compact Separated Cards */}
+          <div className="block md:hidden p-3 sm:p-4 space-y-3 bg-beige-50/70">
             {loading ? (
               <div className="p-6 text-center text-beige-500 text-xs">Loading...</div>
             ) : courses.length === 0 ? (
-              <div className="p-8 text-center text-beige-600 text-xs">
+              <div className="p-8 text-center text-beige-600 text-xs bg-white rounded-xl border border-beige-300">
                 {locale === 'ar' ? 'لا توجد ورشات مضافة حالياً.' : 'No courses available.'}
               </div>
             ) : (
@@ -370,7 +372,7 @@ export default function AdminCoursesPage() {
                 const isOnline = course.delivery_mode === 'online';
 
                 return (
-                  <div key={course.id} className="p-4 space-y-3">
+                  <div key={course.id} className="bg-white rounded-xl border border-beige-300/80 p-4 space-y-3 shadow-2xs">
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <div className="flex items-center gap-1.5 mb-1">
@@ -378,8 +380,9 @@ export default function AdminCoursesPage() {
                             {course.category}
                           </span>
                           {course.is_featured && (
-                            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
-                              Featured
+                            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200 inline-flex items-center gap-1">
+                              <Star className="w-2.5 h-2.5 text-amber-600 fill-amber-600" />
+                              <span>{locale === 'ar' ? 'مميزة' : 'Featured'}</span>
                             </span>
                           )}
                         </div>
