@@ -406,7 +406,11 @@ export async function createRegistration(
     return { success: false, error: 'COURSE_CLOSED' };
   }
 
-  if ((course.accepted_count ?? 0) >= course.max_seats) {
+  // For in_person courses: enforce a hard cap of 15 registrations (after which → waitlist)
+  // For online courses: no seat cap — unlimited registrations allowed
+  const isInPerson = course.delivery_mode === 'in_person';
+  const IN_PERSON_HARD_CAP = 999999; // No server-side hard stop — waitlist handles overflow
+  if (isInPerson && (course.total_registered ?? 0) >= IN_PERSON_HARD_CAP) {
     return { success: false, error: 'COURSE_FULL' };
   }
 
@@ -414,6 +418,15 @@ export async function createRegistration(
   if (!input.consent_privacy || !input.consent_terms || !input.consent_data_law) {
     return { success: false, error: 'CONSENT_REQUIRED' };
   }
+
+  // Determine registration status:
+  // - Online courses: always 'new' (unlimited seats)
+  // - In-person courses: 'new' for first 15 total registrations, 'waitlist' afterwards
+  const IN_PERSON_SEAT_LIMIT = 15;
+  const registrationStatus: import('@/types').RegistrationStatus =
+    course.delivery_mode === 'in_person' && (course.total_registered ?? 0) >= IN_PERSON_SEAT_LIMIT
+      ? 'waitlist'
+      : 'new';
 
   const cleanEmail = input.email.trim().toLowerCase();
   const supabase = getSupabase();
@@ -441,7 +454,7 @@ export async function createRegistration(
             last_name: input.last_name.trim(),
             phone: input.phone.trim(),
             email: cleanEmail,
-            status: 'new',
+            status: registrationStatus,
             consent_privacy: true,
             consent_terms: true,
             consent_data_law: true,
@@ -484,7 +497,7 @@ export async function createRegistration(
     last_name: input.last_name.trim(),
     phone: input.phone.trim(),
     email: cleanEmail,
-    status: 'new',
+    status: registrationStatus,
     consent_privacy: true,
     consent_terms: true,
     consent_data_law: true,

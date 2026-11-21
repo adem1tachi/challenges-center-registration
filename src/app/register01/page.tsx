@@ -116,9 +116,10 @@ function RegistrationManagementContent() {
     return courses.find(c => c.id === selectedCourseId) || null;
   }, [courses, selectedCourseId]);
 
-  // Filtered registrations
+  // Filtered + sorted registrations
+  // Sort by created_at ascending (oldest first) so admin sees registrants in order of arrival
   const filteredRegistrations = useMemo(() => {
-    return registrations.filter(reg => {
+    const filtered = registrations.filter(reg => {
       if (selectedCourseId !== 'all' && reg.course_id !== selectedCourseId) {
         return false;
       }
@@ -134,6 +135,10 @@ function RegistrationManagementContent() {
       }
       return true;
     });
+    // Sort oldest first (by registration time) — important for waitlist ordering
+    return [...filtered].sort(
+      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+    );
   }, [registrations, selectedCourseId, selectedStatus, searchQuery]);
 
   // Accepted participants for the active course (for CSV and PDF)
@@ -208,6 +213,13 @@ function RegistrationManagementContent() {
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
             <HelpCircle className="w-3 h-3" />
             <span>{t('statusNoResponse')}</span>
+          </span>
+        );
+      case 'waitlist':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200">
+            <Clock className="w-3 h-3" />
+            <span>{locale === 'ar' ? 'قائمة الانتظار' : 'Waitlist'}</span>
           </span>
         );
       case 'new':
@@ -365,6 +377,7 @@ function RegistrationManagementContent() {
                 <option value="accepted">{t('statusAccepted')}</option>
                 <option value="rejected">{t('statusRejected')}</option>
                 <option value="no_response">{t('statusNoResponse')}</option>
+                <option value="waitlist">{locale === 'ar' ? 'قائمة الانتظار' : 'Waitlist'}</option>
               </select>
             </div>
           </div>
@@ -486,6 +499,7 @@ function RegistrationManagementContent() {
                             <option value="accepted">{t('statusAccepted')}</option>
                             <option value="rejected">{t('statusRejected')}</option>
                             <option value="no_response">{t('statusNoResponse')}</option>
+                            <option value="waitlist">{locale === 'ar' ? 'قائمة الانتظار' : 'Waitlist'}</option>
                           </select>
                         </td>
 
@@ -571,6 +585,7 @@ function RegistrationManagementContent() {
                         <option value="accepted">{t('statusAccepted')}</option>
                         <option value="rejected">{t('statusRejected')}</option>
                         <option value="no_response">{t('statusNoResponse')}</option>
+                        <option value="waitlist">{locale === 'ar' ? 'قائمة الانتظار' : 'Waitlist'}</option>
                       </select>
                     </div>
                   </div>

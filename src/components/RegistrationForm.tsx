@@ -13,6 +13,7 @@ import {
   Phone,
   Mail,
   Ticket,
+  Clock,
 } from 'lucide-react';
 
 interface RegistrationFormProps {
@@ -31,10 +32,11 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [successData, setSuccessData] = useState<{ id: string } | null>(null);
+  const [successData, setSuccessData] = useState<{ id: string; isWaitlist: boolean } | null>(null);
 
   const accepted = course.accepted_count ?? 0;
-  const isFull = accepted >= course.max_seats;
+  const isOnline = course.delivery_mode === 'online';
+  const isFull = !isOnline && accepted >= course.max_seats;
   const isClosed = !course.is_published || isFull;
 
   const triggerConfetti = () => {
@@ -98,8 +100,10 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
         }
       }
 
-      setSuccessData({ id: data.registration.id });
-      triggerConfetti();
+      setSuccessData({ id: data.registration.id, isWaitlist: data.registration.status === 'waitlist' });
+      if (data.registration.status !== 'waitlist') {
+        triggerConfetti();
+      }
     } catch (err: any) {
       console.error(err);
       setErrorMsg(err.message || 'Error occurred');
@@ -135,25 +139,32 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
   }
 
   if (successData) {
+    const isWaitlist = successData.isWaitlist;
     return (
-      <div className="p-8 sm:p-10 bg-white rounded-3xl border border-emerald-200 text-center space-y-6 shadow-sm animate-in fade-in zoom-in-95">
-        <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-200 shadow-xs">
-          <CheckCircle2 className="w-8 h-8" />
+      <div className={`p-8 sm:p-10 bg-white rounded-3xl border ${isWaitlist ? 'border-amber-200' : 'border-emerald-200'} text-center space-y-6 shadow-sm animate-in fade-in zoom-in-95`}>
+        <div className={`w-16 h-16 ${isWaitlist ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'} rounded-full flex items-center justify-center mx-auto border shadow-xs`}>
+          {isWaitlist ? <Clock className="w-8 h-8" /> : <CheckCircle2 className="w-8 h-8" />}
         </div>
 
         <div className="space-y-2">
           <h3 className="text-xl sm:text-2xl font-black text-beige-900">
-            {t('regSuccessTitle')}
+            {isWaitlist
+              ? (locale === 'ar' ? 'أنت في قائمة الانتظار!' : "You're on the Waitlist!")
+              : t('regSuccessTitle')}
           </h3>
           <p className="text-xs sm:text-sm text-beige-700 max-w-lg mx-auto">
-            {t('regSuccessDesc')}
+            {isWaitlist
+              ? (locale === 'ar'
+                  ? 'تم استلام طلبك بنجاح. اكتملت المقاعد الـ 15 الأساسية، وقد أُضفت إلى قائمة الانتظار. سنتواصل معك في حال توفر مقعد.'
+                  : "Your application was received successfully. The first 15 confirmed seats are taken — you've been added to the waitlist. We'll contact you if a seat becomes available.")
+              : t('regSuccessDesc')}
           </p>
         </div>
 
         {/* Ticket Badge */}
         <div className="p-4 bg-beige-50 rounded-2xl border border-beige-300 max-w-sm mx-auto flex items-center justify-between gap-3 text-start">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-ruby-700 text-beige-50 flex items-center justify-center shrink-0">
+            <div className={`w-10 h-10 rounded-xl ${isWaitlist ? 'bg-amber-600' : 'bg-ruby-700'} text-beige-50 flex items-center justify-center shrink-0`}>
               <Ticket className="w-5 h-5" />
             </div>
             <div>
@@ -165,8 +176,14 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               </span>
             </div>
           </div>
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shrink-0">
-            {locale === 'ar' ? 'قيد المراجعة' : 'Pending'}
+          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold shrink-0 ${
+            isWaitlist
+              ? 'bg-amber-50 text-amber-800 border border-amber-200'
+              : 'bg-amber-50 text-amber-800 border border-amber-200'
+          }`}>
+            {isWaitlist
+              ? (locale === 'ar' ? 'قائمة الانتظار' : 'Waitlist')
+              : (locale === 'ar' ? 'قيد المراجعة' : 'Pending')}
           </span>
         </div>
 
@@ -208,6 +225,14 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
         <p className="text-sm text-beige-700">
           {t('regFormSubtitle')}
         </p>
+        {/* Small waitlist note — only for in-person courses */}
+        {course.delivery_mode === 'in_person' && (
+          <p className="mt-2 text-[11px] text-beige-500 leading-snug">
+            {locale === 'ar'
+              ? '⚡ تقتصر المقاعد المؤكدة على أول 15 مشارك — الطلبات الإضافية تُضاف تلقائياً لقائمة الانتظار.'
+              : '⚡ Confirmed seats are limited to the first 15 applicants — additional requests are automatically added to the waitlist.'}
+          </p>
+        )}
       </div>
 
       {errorMsg && (

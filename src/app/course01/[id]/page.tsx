@@ -90,9 +90,9 @@ export default function CourseDetailPage() {
   const description = course.description;
   const location = course.location;
   const accepted = course.accepted_count ?? 0;
-  const seatsLeft = Math.max(0, course.max_seats - accepted);
-  const isFull = seatsLeft <= 0;
   const isOnline = course.delivery_mode === 'online';
+  const seatsLeft = isOnline ? Infinity : Math.max(0, course.max_seats - accepted);
+  const isFull = !isOnline && seatsLeft <= 0;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-10 bg-beige-50">
@@ -147,11 +147,11 @@ export default function CourseDetailPage() {
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
                 {t('fullyBooked')}
               </span>
-            ) : (
+            ) : !isOnline ? (
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
                 {seatsLeft} {t('seatsLeft')}
               </span>
-            )}
+            ) : null}
           </div>
 
           {/* Title */}
@@ -231,7 +231,8 @@ export default function CourseDetailPage() {
           )}
         </div>
 
-        {/* Capacity Bar */}
+        {/* Capacity Bar — hidden for online courses */}
+        {!isOnline && (
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-beige-700">
             <span className="flex items-center gap-1.5">
@@ -258,6 +259,7 @@ export default function CourseDetailPage() {
             />
           </div>
         </div>
+        )}
       </div>
 
       {/* Registration Section */}

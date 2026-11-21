@@ -1,6 +1,6 @@
 export type DeliveryMode = 'in_person' | 'online';
 
-export type RegistrationStatus = 'new' | 'accepted' | 'rejected' | 'no_response';
+export type RegistrationStatus = 'new' | 'accepted' | 'rejected' | 'no_response' | 'waitlist';
 
 export interface Course {
   id: string;

@@ -145,7 +145,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const validStatuses: RegistrationStatus[] = ['new', 'accepted', 'rejected', 'no_response'];
+    const validStatuses: RegistrationStatus[] = ['new', 'accepted', 'rejected', 'no_response', 'waitlist'];
     if (!validStatuses.includes(status)) {
       return NextResponse.json(
         { success: false, error: 'Invalid registration status' },

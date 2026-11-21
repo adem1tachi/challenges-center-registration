@@ -19,9 +19,9 @@ export default function CourseCard({ course }: CourseCardProps) {
   const location = course.location;
 
   const accepted = course.accepted_count ?? 0;
-  const seatsLeft = Math.max(0, course.max_seats - accepted);
-  const isFull = seatsLeft <= 0;
   const isOnline = course.delivery_mode === 'online';
+  const seatsLeft = Math.max(0, course.max_seats - accepted);
+  const isFull = !isOnline && seatsLeft <= 0;
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
@@ -70,15 +70,17 @@ export default function CourseCard({ course }: CourseCardProps) {
               </span>
             )}
 
-            {/* Status: Full or Available */}
-            {isFull ? (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
-                {t('fullyBooked')}
-              </span>
-            ) : (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                {seatsLeft} {t('seatsLeft')}
-              </span>
+            {/* Status: Full or Available — only for in-person */}
+            {!isOnline && (
+              isFull ? (
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                  {t('fullyBooked')}
+                </span>
+              ) : (
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  {seatsLeft} {t('seatsLeft')}
+                </span>
+              )
             )}
           </div>
 
@@ -115,6 +117,8 @@ export default function CourseCard({ course }: CourseCardProps) {
       {/* Right/Side CTA Section */}
       <div className="bg-beige-100/70 md:w-56 p-5 sm:p-6 border-t md:border-t-0 md:border-s border-beige-300/80 flex flex-col justify-between items-center md:items-stretch text-center md:text-start gap-4">
         <div className="w-full">
+          {!isOnline && (
+            <>
           <div className="flex items-center justify-between text-xs text-beige-700 mb-1.5">
             <span className="flex items-center gap-1 font-medium">
               <Users className="w-3.5 h-3.5 text-beige-500" />
@@ -138,6 +142,8 @@ export default function CourseCard({ course }: CourseCardProps) {
               style={{ width: `${Math.min(100, Math.round((accepted / course.max_seats) * 100))}%` }}
             />
           </div>
+            </>
+          )}
         </div>
 
         {/* Action Button */}
