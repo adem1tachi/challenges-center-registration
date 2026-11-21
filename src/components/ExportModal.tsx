@@ -80,18 +80,25 @@ export default function ExportModal({
         : `Participants_${(selectedCourse?.title || 'Course').replace(/[^a-zA-Z0-9\u0600-\u06FF_-]/g, '_').substring(0, 30)}_${new Date().toISOString().split('T')[0]}.csv`;
 
       const headers = isAll
-        ? ['#', 'Formation / Course', 'Nom', 'Prénom', 'Téléphone', 'Email', 'Statut', 'Date Inscription']
-        : ['#', 'Nom', 'Prénom', 'Téléphone', 'Email', 'Statut', 'Date Inscription'];
+        ? ['#', 'Formation / Course', 'Nom', 'Prénom', 'Date de Naissance', 'Université', 'Année d\'étude', 'Téléphone', 'Email', 'Statut', 'Date Inscription']
+        : ['#', 'Nom', 'Prénom', 'Date de Naissance', 'Université', 'Année d\'étude', 'Téléphone', 'Email', 'Statut', 'Date Inscription'];
 
       const rows = matchingRegistrations.map((r, i) => {
         const course = courses.find(c => c.id === r.course_id);
         const courseName = course ? course.title : '';
+        const birthDate = r.birth_date || '';
+        const univ = r.university || '';
+        const year = r.academic_year || '';
+
         if (isAll) {
           return [
             i + 1,
             `"${courseName.replace(/"/g, '""')}"`,
             `"${r.last_name.replace(/"/g, '""')}"`,
             `"${r.first_name.replace(/"/g, '""')}"`,
+            `"${birthDate}"`,
+            `"${univ.replace(/"/g, '""')}"`,
+            `"${year.replace(/"/g, '""')}"`,
             `"${r.phone}"`,
             `"${r.email.replace(/"/g, '""')}"`,
             `"${r.status}"`,
@@ -102,6 +109,9 @@ export default function ExportModal({
           i + 1,
           `"${r.last_name.replace(/"/g, '""')}"`,
           `"${r.first_name.replace(/"/g, '""')}"`,
+          `"${birthDate}"`,
+          `"${univ.replace(/"/g, '""')}"`,
+          `"${year.replace(/"/g, '""')}"`,
           `"${r.phone}"`,
           `"${r.email.replace(/"/g, '""')}"`,
           `"${r.status}"`,

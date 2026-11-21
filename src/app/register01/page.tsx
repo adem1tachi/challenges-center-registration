@@ -131,7 +131,15 @@ function RegistrationManagementContent() {
         const fullName = `${reg.first_name} ${reg.last_name}`.toLowerCase();
         const email = reg.email.toLowerCase();
         const phone = reg.phone;
-        return fullName.includes(q) || email.includes(q) || phone.includes(q);
+        const univ = (reg.university || '').toLowerCase();
+        const year = (reg.academic_year || '').toLowerCase();
+        return (
+          fullName.includes(q) ||
+          email.includes(q) ||
+          phone.includes(q) ||
+          univ.includes(q) ||
+          year.includes(q)
+        );
       }
       return true;
     });
@@ -461,6 +469,11 @@ function RegistrationManagementContent() {
                           <div className="font-bold text-beige-900">
                             {reg.first_name} {reg.last_name}
                           </div>
+                          {(reg.university || reg.academic_year) && (
+                            <div className="text-[11px] text-ruby-700 font-medium truncate max-w-[220px]">
+                              {reg.university} {reg.academic_year ? `• ${reg.academic_year}` : ''}
+                            </div>
+                          )}
                           <div className="text-[10px] text-beige-500 font-mono">
                             {formatDate(reg.created_at, locale)}
                           </div>
@@ -550,6 +563,11 @@ function RegistrationManagementContent() {
                         <h4 className="font-bold text-sm text-beige-900">
                           {reg.first_name} {reg.last_name}
                         </h4>
+                        {(reg.university || reg.academic_year) && (
+                          <p className="text-[11px] text-ruby-700 font-medium line-clamp-1">
+                            {reg.university} {reg.academic_year ? `(${reg.academic_year})` : ''}
+                          </p>
+                        )}
                         <p className="text-xs text-ruby-700 font-semibold line-clamp-1 mt-0.5">
                           {courseTitle}
                         </p>

@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   Star,
   BookOpen,
+  ExternalLink,
 } from 'lucide-react';
 
 export default function CourseDetailPage() {
@@ -167,6 +168,7 @@ export default function CourseDetailPage() {
 
         {/* Key Information Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 sm:p-6 bg-beige-100/70 rounded-2xl border border-beige-300/80">
+          {/* Date & Time */}
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
               <Calendar className="w-5 h-5 text-ruby-600" />
@@ -185,6 +187,7 @@ export default function CourseDetailPage() {
             </div>
           </div>
 
+          {/* Location / Format */}
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
               {isOnline ? (
@@ -193,24 +196,45 @@ export default function CourseDetailPage() {
                 <MapPin className="w-5 h-5 text-emerald-600" />
               )}
             </div>
-            <div>
+            <div className="flex-1">
               <span className="block text-xs font-bold uppercase tracking-wider text-beige-700">
                 {t('locationVenue')}
               </span>
               <span className="font-bold text-sm text-beige-900 block mt-0.5">
-                {location}
+                {isOnline ? (locale === 'ar' ? 'عبر الإنترنت' : 'Online') : location}
               </span>
-              {isOnline && (
-                <span className="text-[11px] text-blue-700 block mt-0.5 leading-snug">
-                  {t('onlineLinkNotice')}
-                </span>
-              )}
+              <span className="text-xs text-beige-600 block mt-0.5">
+                {isOnline ? (locale === 'ar' ? 'جلسة تفاعلية مباشرة' : 'Live Interactive Session') : ''}
+              </span>
             </div>
           </div>
 
+          {/* Meeting Link (if online) - Same compact box style as Date and Location */}
+          {isOnline && course.meeting_url && (
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
+                <Video className="w-5 h-5 text-blue-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="block text-xs font-bold uppercase tracking-wider text-beige-700">
+                  {locale === 'ar' ? 'رابط الدورة (Google Meet)' : 'Meeting Link (Google Meet)'}
+                </span>
+                <a
+                  href={course.meeting_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-bold text-sm text-blue-700 hover:text-blue-900 hover:underline mt-0.5 truncate max-w-full"
+                >
+                  <span className="truncate">{course.meeting_url}</span>
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                </a>
+              </div>
+            </div>
+          )}
+
           {/* Instructor Information */}
           {course.instructor_name && (
-            <div className="flex items-start gap-3 sm:col-span-2 pt-3 border-t border-beige-300/60">
+            <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-white border border-beige-300 flex items-center justify-center shrink-0 shadow-xs">
                 <User className="w-5 h-5 text-ruby-700" />
               </div>

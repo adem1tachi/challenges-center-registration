@@ -20,6 +20,12 @@ const registrationSchema = z.object({
     .trim()
     .regex(/^(0)(5|6|7)[0-9]{8}$/, 'Must be a valid Algerian phone number (e.g. 0550123456)'),
   email: z.string().trim().email('Must be a valid email address').toLowerCase().max(100),
+  birth_date: z
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Must be a valid date in YYYY-MM-DD format'),
+  university: z.string().trim().min(2, 'University is required').max(150),
+  academic_year: z.string().trim().min(1, 'Academic year is required').max(100),
   consent_privacy: z.literal(true, {
     errorMap: () => ({ message: 'Privacy policy consent is required' }),
   }),

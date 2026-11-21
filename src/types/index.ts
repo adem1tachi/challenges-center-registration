@@ -30,6 +30,9 @@ export interface Registration {
   last_name: string;
   phone: string;
   email: string;
+  birth_date?: string | null;
+  university?: string | null;
+  academic_year?: string | null;
   status: RegistrationStatus;
   consent_privacy: boolean;
   consent_terms: boolean;
@@ -65,6 +68,9 @@ export interface RegistrationInput {
   last_name: string;
   phone: string;
   email: string;
+  birth_date: string;
+  university: string;
+  academic_year: string;
   consent_privacy: boolean;
   consent_terms: boolean;
   consent_data_law: boolean;

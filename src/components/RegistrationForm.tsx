@@ -14,6 +14,11 @@ import {
   Mail,
   Ticket,
   Clock,
+  Award,
+  Calendar,
+  GraduationCap,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 
 interface RegistrationFormProps {
@@ -27,6 +32,9 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [university, setUniversity] = useState('');
+  const [academicYear, setAcademicYear] = useState('');
 
   const [consentAgreed, setConsentAgreed] = useState(false);
 
@@ -78,6 +86,9 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
           last_name: lastName.trim(),
           phone: phone.trim(),
           email: email.trim().toLowerCase(),
+          birth_date: birthDate.trim(),
+          university: university.trim(),
+          academic_year: academicYear.trim(),
           consent_privacy: consentAgreed,
           consent_terms: consentAgreed,
           consent_data_law: consentAgreed,
@@ -201,6 +212,9 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               setLastName('');
               setPhone('');
               setEmail('');
+              setBirthDate('');
+              setUniversity('');
+              setAcademicYear('');
               setConsentAgreed(false);
             }}
             type="button"
@@ -233,6 +247,36 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
               : '⚡ Confirmed seats are limited to the first 15 applicants — additional requests are automatically added to the waitlist.'}
           </p>
         )}
+      </div>
+
+      {/* Prominent Eye-Catching Certificate Notice */}
+      <div className="mb-6 p-4 sm:p-5 rounded-2xl border-2 border-amber-400/90 bg-gradient-to-br from-amber-50 via-rose-50/60 to-amber-100/70 shadow-md shadow-amber-500/10 relative overflow-hidden transition-all hover:shadow-lg">
+        {/* Decorative background glow accents */}
+        <div className="absolute -top-12 -right-12 w-32 h-32 bg-amber-400/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-ruby-500/15 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="flex items-start gap-3.5 relative z-10">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-600 to-ruby-700 text-white flex items-center justify-center shadow-md shrink-0 mt-0.5">
+            <Award className="w-6 h-6 animate-pulse" />
+          </div>
+
+          <div className="space-y-1.5 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-ruby-600" />
+              </span>
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-ruby-800 bg-ruby-100/90 border border-ruby-200 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 shadow-2xs">
+                <Sparkles className="w-3 h-3 text-amber-600" />
+                {t('certificateNoticeBadge')}
+              </span>
+            </div>
+
+            <p className="text-sm sm:text-base font-black text-amber-950 leading-relaxed">
+              {t('certificateNoticeText')}
+            </p>
+          </div>
+        </div>
       </div>
 
       {errorMsg && (
@@ -283,8 +327,94 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
         </div>
       </div>
 
-      {/* Grid: Phone Number & Email */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      {/* Grid: Date of Birth & University */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
+            {t('birthDate')} <span className="text-rose-500">*</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
+              <Calendar className="w-4 h-4" />
+            </div>
+            <input
+              type="date"
+              required
+              value={birthDate}
+              onChange={e => setBirthDate(e.target.value)}
+              max={new Date().toISOString().split('T')[0]}
+              min="1940-01-01"
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
+            {t('university')} <span className="text-rose-500">*</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
+              <GraduationCap className="w-4 h-4" />
+            </div>
+            <input
+              type="text"
+              list="university-suggestions"
+              required
+              value={university}
+              onChange={e => setUniversity(e.target.value)}
+              placeholder={t('universityPlaceholder')}
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all"
+            />
+            <datalist id="university-suggestions">
+              <option value="المدرسة الوطنية العليا للإحصاء والاقتصاد التطبيقي (ENSSEA - القليعة)" />
+              <option value="جامعة العلوم والتكنولوجيا هواري بومدين (USTHB - باب الزوار)" />
+              <option value="المدرسة الوطنية العليا للإعلام الآلي (ESI - واد السمار)" />
+              <option value="جامعة الجزائر 1 - بن يوسف بن خدة" />
+              <option value="جامعة الجزائر 2 - أبو القاسم سعد الله (بوزريعة)" />
+              <option value="جامعة الجزائر 3 - إبراهيم سلطان شيبوط (دالي براهيم)" />
+              <option value="المدرسة العليا للتجارة (ESC - القليعة)" />
+              <option value="المدرسة العليا للدراسات التجارية العليا (EHEC - القليعة)" />
+              <option value="المدرسة الوطنية العليا للمناجمنت (ENSM - القليعة)" />
+              <option value="جامعة أمحمد بوقرة - بومرداس" />
+              <option value="جامعة سعد دحلب - البليدة 1" />
+              <option value="جامعة علي لونيسي - البليدة 2 (العفرون)" />
+            </datalist>
+          </div>
+        </div>
+      </div>
+
+      {/* Grid: Academic Year & Phone */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
+            {t('academicYear')} <span className="text-rose-500">*</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
+              <BookOpen className="w-4 h-4" />
+            </div>
+            <select
+              required
+              value={academicYear}
+              onChange={e => setAcademicYear(e.target.value)}
+              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 transition-all cursor-pointer"
+            >
+              <option value="" disabled>
+                {t('selectAcademicYear')}
+              </option>
+              <option value="L1">{t('yearL1')}</option>
+              <option value="L2">{t('yearL2')}</option>
+              <option value="L3">{t('yearL3')}</option>
+              <option value="M1">{t('yearM1')}</option>
+              <option value="M2">{t('yearM2')}</option>
+              <option value="Doctorat">{t('yearDoctorate')}</option>
+              <option value="Diplômé / Professionnel">{t('yearGraduate')}</option>
+              <option value="Autre">{t('yearOther')}</option>
+            </select>
+          </div>
+        </div>
+
         <div>
           <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
             {t('phone')} <span className="text-rose-500">*</span>
@@ -307,25 +437,26 @@ export default function RegistrationForm({ course }: RegistrationFormProps) {
             {t('phoneHelper')}
           </span>
         </div>
+      </div>
 
-        <div>
-          <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
-            {t('email')} <span className="text-rose-500">*</span>
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
-              <Mail className="w-4 h-4" />
-            </div>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder={t('emailPlaceholder')}
-              dir="ltr"
-              className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 text-start transition-all"
-            />
+      {/* Email (Full Width) */}
+      <div className="mb-6">
+        <label className="block text-xs font-semibold text-beige-800 uppercase tracking-wider mb-1.5">
+          {t('email')} <span className="text-rose-500">*</span>
+        </label>
+        <div className="relative">
+          <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-beige-500">
+            <Mail className="w-4 h-4" />
           </div>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder={t('emailPlaceholder')}
+            dir="ltr"
+            className="w-full ps-10 pe-3 py-2.5 rounded-xl border border-beige-300 bg-beige-50/50 text-beige-900 text-sm placeholder:text-beige-500 focus:outline-none focus:ring-2 focus:ring-ruby-600/30 focus:border-ruby-700 text-start transition-all"
+          />
         </div>
       </div>
 

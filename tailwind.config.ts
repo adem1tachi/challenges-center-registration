@@ -56,7 +56,6 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          "var(--font-ibm-plex-arabic)",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
@@ -67,6 +66,9 @@ const config: Config = {
         ],
         arabic: [
           "var(--font-ibm-plex-arabic)",
+          "Cairo",
+          "Tajawal",
+          "-apple-system",
           "sans-serif",
         ],
       },

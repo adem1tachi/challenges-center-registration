@@ -352,7 +352,9 @@ export async function getRegistrations(options?: {
               r.first_name.toLowerCase().includes(q) ||
               r.last_name.toLowerCase().includes(q) ||
               r.email.toLowerCase().includes(q) ||
-              r.phone.includes(q)
+              r.phone.includes(q) ||
+              (r.university && r.university.toLowerCase().includes(q)) ||
+              (r.academic_year && r.academic_year.toLowerCase().includes(q))
           );
         }
         return results;
@@ -384,7 +386,9 @@ export async function getRegistrations(options?: {
         r.first_name.toLowerCase().includes(q) ||
         r.last_name.toLowerCase().includes(q) ||
         r.email.toLowerCase().includes(q) ||
-        r.phone.includes(q)
+        r.phone.includes(q) ||
+        (r.university && r.university.toLowerCase().includes(q)) ||
+        (r.academic_year && r.academic_year.toLowerCase().includes(q))
     );
   }
 
@@ -454,6 +458,9 @@ export async function createRegistration(
             last_name: input.last_name.trim(),
             phone: input.phone.trim(),
             email: cleanEmail,
+            birth_date: input.birth_date ? input.birth_date.trim() : null,
+            university: input.university ? input.university.trim() : null,
+            academic_year: input.academic_year ? input.academic_year.trim() : null,
             status: registrationStatus,
             consent_privacy: true,
             consent_terms: true,
@@ -497,6 +504,9 @@ export async function createRegistration(
     last_name: input.last_name.trim(),
     phone: input.phone.trim(),
     email: cleanEmail,
+    birth_date: input.birth_date ? input.birth_date.trim() : null,
+    university: input.university ? input.university.trim() : null,
+    academic_year: input.academic_year ? input.academic_year.trim() : null,
     status: registrationStatus,
     consent_privacy: true,
     consent_terms: true,

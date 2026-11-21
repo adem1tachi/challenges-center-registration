@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Registration, RegistrationStatus } from '@/types';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { formatDate } from '@/lib/utils';
-import { X, ShieldCheck, Mail, Phone, Calendar, Clock, Loader2, Save } from 'lucide-react';
+import { X, ShieldCheck, Mail, Phone, Calendar, Clock, Loader2, Save, GraduationCap, BookOpen } from 'lucide-react';
 
 interface ParticipantDetailsModalProps {
   registration: Registration;
@@ -96,6 +96,33 @@ export default function ParticipantDetailsModal({
                   {registration.email}
                 </a>
               </div>
+
+              {registration.birth_date && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-ruby-700 shrink-0" />
+                  <span>
+                    {locale === 'ar' ? 'تاريخ الميلاد:' : 'DOB:'} <span className="font-mono">{registration.birth_date}</span>
+                  </span>
+                </div>
+              )}
+
+              {registration.university && (
+                <div className="flex items-center gap-2 sm:col-span-2">
+                  <GraduationCap className="w-4 h-4 text-ruby-700 shrink-0" />
+                  <span className="truncate" title={registration.university}>
+                    {locale === 'ar' ? 'الجامعة:' : 'University:'} <strong>{registration.university}</strong>
+                  </span>
+                </div>
+              )}
+
+              {registration.academic_year && (
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-ruby-700 shrink-0" />
+                  <span>
+                    {locale === 'ar' ? 'السنة الدراسية:' : 'Year:'} <strong>{registration.academic_year}</strong>
+                  </span>
+                </div>
+              )}
 
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-beige-500 shrink-0" />
