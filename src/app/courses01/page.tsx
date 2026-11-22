@@ -3,8 +3,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Course, DeliveryMode } from '@/types';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
+import { formatDate } from '@/lib/utils';
 import CourseCard from '@/components/CourseCard';
-import { Search, MapPin, Video, Filter, BookOpen } from 'lucide-react';
+import ConcurrentCourseGroup from '@/components/ConcurrentCourseGroup';
+import { Search, MapPin, Video, Filter, BookOpen, Calendar } from 'lucide-react';
 
 export default function CoursesPage() {
   const { t, locale } = useLanguage();
@@ -13,6 +15,7 @@ export default function CoursesPage() {
 
   // Filters state
   const [search, setSearch] = useState('');
+  const [dayFilter, setDayFilter] = useState<'all' | string>('all');
   const [modeFilter, setModeFilter] = useState<'all' | DeliveryMode>('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
@@ -37,9 +40,23 @@ export default function CoursesPage() {
     return Array.from(set);
   }, [courses]);
 
+  // Unique dates list for day filter
+  const dates = useMemo(() => {
+    const set = new Set<string>();
+    courses.forEach(c => {
+      if (c.date) set.add(c.date);
+    });
+    return Array.from(set).sort();
+  }, [courses]);
+
   // Filtered courses
   const filteredCourses = useMemo(() => {
     return courses.filter(course => {
+      // Day filter
+      if (dayFilter !== 'all' && course.date !== dayFilter) {
+        return false;
+      }
+
       // Mode filter
       if (modeFilter !== 'all' && course.delivery_mode !== modeFilter) {
         return false;
@@ -61,7 +78,54 @@ export default function CoursesPage() {
 
       return true;
     });
-  }, [courses, modeFilter, categoryFilter, search, locale]);
+  }, [courses, dayFilter, modeFilter, categoryFilter, search]);
+
+  // Group courses by Date and Time slot
+  const timeSlotGroups = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        date: string;
+        time: string;
+        courses: Course[];
+        startTimeMinutes: number;
+      }
+    >();
+
+    filteredCourses.forEach(course => {
+      const key = `${course.date}_${course.time}`;
+      if (!map.has(key)) {
+        // Parse start time in minutes for proper chronological sorting, e.g. "14:00" -> 840
+        const match = (course.time || '').match(/^(\d{1,2}):(\d{2})/);
+        const startTimeMinutes = match
+          ? parseInt(match[1], 10) * 60 + parseInt(match[2], 10)
+          : 0;
+
+        map.set(key, {
+          date: course.date,
+          time: course.time,
+          courses: [],
+          startTimeMinutes,
+        });
+      }
+      map.get(key)!.courses.push(course);
+    });
+
+    const groups = Array.from(map.entries()).map(([key, value]) => ({
+      key,
+      ...value,
+    }));
+
+    // Chronological sorting: first by date, then by start time minutes
+    groups.sort((a, b) => {
+      if (a.date !== b.date) {
+        return a.date.localeCompare(b.date);
+      }
+      return a.startTimeMinutes - b.startTimeMinutes;
+    });
+
+    return groups;
+  }, [filteredCourses]);
 
   return (
     <div className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-6 flex flex-col bg-beige-50">
@@ -77,6 +141,7 @@ export default function CoursesPage() {
 
       {/* Search and Filters Bar */}
       <div className="bg-white p-4 sm:p-5 rounded-2xl border border-beige-300/90 shadow-xs space-y-4">
+        {/* Top Filter Controls: Search & Delivery Mode */}
         <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
           {/* Search Input */}
           <div className="relative flex-1">
@@ -132,12 +197,51 @@ export default function CoursesPage() {
           </div>
         </div>
 
+        {/* Day Filter Tabs */}
+        {dates.length > 1 && (
+          <div className="flex items-center gap-2 pt-2 border-t border-beige-200/80 overflow-x-auto text-xs">
+            <span className="text-beige-600 font-semibold uppercase tracking-wider shrink-0 me-1 flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>{locale === 'ar' ? 'اليوم:' : 'Day:'}</span>
+            </span>
+            <button
+              onClick={() => setDayFilter('all')}
+              type="button"
+              className={`px-3.5 py-1.5 rounded-xl font-bold transition-all shrink-0 ${
+                dayFilter === 'all'
+                  ? 'bg-ruby-700 text-white shadow-xs'
+                  : 'bg-beige-100 text-beige-800 hover:bg-beige-200'
+              }`}
+            >
+              {t('filterDayAll')}
+            </button>
+            {dates.map((d, i) => (
+              <button
+                key={d}
+                onClick={() => setDayFilter(d)}
+                type="button"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all shrink-0 ${
+                  dayFilter === d
+                    ? 'bg-ruby-700 text-white shadow-xs'
+                    : 'bg-beige-100 text-beige-800 hover:bg-beige-200'
+                }`}
+              >
+                {d === '2026-11-24'
+                  ? t('filterDay1')
+                  : d === '2026-11-25'
+                  ? t('filterDay2')
+                  : formatDate(d, locale)}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Categories Chips */}
         {categories.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto pt-2 pb-1 text-xs">
-            <span className="text-beige-600 font-semibold uppercase tracking-wider shrink-0 me-1">
-              <Filter className="w-3 h-3 inline me-1" />
-              {locale === 'ar' ? 'التصنيف:' : 'Category:'}
+          <div className="flex items-center gap-2 overflow-x-auto pt-2 border-t border-beige-200/60 pb-1 text-xs">
+            <span className="text-beige-600 font-semibold uppercase tracking-wider shrink-0 me-1 flex items-center gap-1">
+              <Filter className="w-3 h-3" />
+              <span>{locale === 'ar' ? 'التصنيف:' : 'Category:'}</span>
             </span>
             <button
               onClick={() => setCategoryFilter('all')}
@@ -168,13 +272,13 @@ export default function CoursesPage() {
         )}
       </div>
 
-      {/* Courses List */}
+      {/* Courses Schedule & Time Slot Groups */}
       {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3, 4].map(i => (
+        <div className="space-y-6">
+          {[1, 2, 3].map(i => (
             <div
               key={i}
-              className="h-44 bg-beige-200/60 rounded-2xl animate-pulse border border-beige-300/80"
+              className="h-56 bg-beige-200/60 rounded-3xl animate-pulse border border-beige-300/80"
             />
           ))}
         </div>
@@ -191,10 +295,49 @@ export default function CoursesPage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
-          {filteredCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
-          ))}
+        <div className="space-y-8">
+          {timeSlotGroups.map((group, index) => {
+            // Check if this group starts a new date section
+            const showDateHeader =
+              dayFilter === 'all' &&
+              (index === 0 || group.date !== timeSlotGroups[index - 1].date);
+
+            return (
+              <React.Fragment key={group.key}>
+                {showDateHeader && (
+                  <div className="pt-2">
+                    <div className="flex items-center gap-3 py-2 px-1 border-b-2 border-ruby-700/30 mb-2">
+                      <span className="w-2.5 h-6 rounded-full bg-ruby-700 shrink-0" />
+                      <h2 className="text-lg sm:text-xl font-black text-beige-900 tracking-tight">
+                        {formatDate(group.date, locale)}
+                      </h2>
+                      <span className="text-xs font-bold px-3 py-0.5 rounded-full bg-ruby-50 text-ruby-700 border border-ruby-200 shadow-2xs">
+                        {group.date === '2026-11-24'
+                          ? locale === 'ar'
+                            ? 'اليوم الأول'
+                            : 'Day 1'
+                          : locale === 'ar'
+                          ? 'اليوم الثاني'
+                          : 'Day 2'}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* If multiple courses share the exact same time slot -> Render in Shared Frame */}
+                {group.courses.length > 1 ? (
+                  <ConcurrentCourseGroup
+                    date={group.date}
+                    time={group.time}
+                    courses={group.courses}
+                  />
+                ) : (
+                  /* Single course in this time slot */
+                  <CourseCard course={group.courses[0]} />
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
       )}
     </div>
